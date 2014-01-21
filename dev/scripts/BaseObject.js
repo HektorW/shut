@@ -15,7 +15,9 @@ define([
       this._active = false;
     },
 
-    update: function(time) {}
+    update: function(time) {},  
+
+    draw: function() {}
   });
 
   return GameObject;
