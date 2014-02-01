@@ -5,6 +5,7 @@
   "indent": 2,
   "globals": {
     "require": true,
+    "define": true,
     "$": true,
     "jQuery": true,
     "Modernizr": true

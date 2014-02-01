@@ -19,8 +19,12 @@ require.config({
 });
 
 require([
+  'prefixer',
   'app'
-], function(App) {
+], function(Prefixer, App) {
+
+  Prefixer.prefixAll();
+
   new App().init();
 });
 
