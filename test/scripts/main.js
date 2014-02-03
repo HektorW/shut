@@ -1,7 +1,7 @@
 require.config({
   shim: {
-    threejs: {
-      exports: 'THREE'
+    mocha: {
+      exports: 'mocha'
     }
   },
 
@@ -14,7 +14,9 @@ require.config({
   }
 });
 
-require(['tests'], function(tests) {
+require(['mocha', 'tests'], function(mocha, tests) {
+
+  mocha.setup('bdd');
 
   tests.run();
 

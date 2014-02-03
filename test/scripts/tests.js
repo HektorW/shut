@@ -1,24 +1,26 @@
 /* jshint undef: true*/
-/* global describe:true, it:true */
 
 define([
   'mocha',
   'chai',
   'dev/scripts/util/StringUtil'
 ], function(
-  Mocha,
-  Chai,
+  mocha,
+  chai,
   StringUtil
 ) {
   
-  console.log(Mocha);
 
-  var assert = Chai.assert;
+  var assert = chai.assert,
+      expect = chai.expect,
+      should = chai.should;
   
   function run() {
     console.log('Running tests');
 
-    // StringUtilTests();
+    StringUtilTests();
+
+    mocha.run();
   }
 
 
