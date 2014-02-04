@@ -14,6 +14,9 @@ require.config({
   }
 });
 
+
+
+
 require(['mocha', 'tests'], function(mocha, tests) {
 
   mocha.setup('bdd');
