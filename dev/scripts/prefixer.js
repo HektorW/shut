@@ -1,6 +1,7 @@
 define([], function() {
   
-  var vendors = ['o', 'ms', 'moz', 'webkit'];
+  var _vendors = ['o', 'ms', 'moz', 'webkit'],
+      _all_prefixed = false;
 
   function capitalize(str) {
     return str[0] + str.substr(1);
@@ -18,8 +19,8 @@ define([], function() {
 
     cap = capitalize(functionName);
 
-    for(i = vendors.length; i--; ) {
-      fn = obj[vendors[i] + cap];
+    for(i = _vendors.length; i--; ) {
+      fn = obj[_vendors[i] + cap];
 
       if(fn) {
         obj[functionName] = fn;
@@ -31,6 +32,9 @@ define([], function() {
   }
 
   function prefixAll() {
+    if(_all_prefixed)
+      return;
+
     prefix(window, 'requestAnimationFrame', function(callback) {
       setTimeout(function() {
         callback(window.performance.now());
@@ -41,13 +45,15 @@ define([], function() {
     });
 
     prefix(window.performance, 'now', Date.now);
+
+    _all_prefixed = true;
   }
 
   function prefixedCss(property, value) {
     var res = '', i, cap;
     cap = capitalize(property);
-    for(i = vendors.length; i--; )
-      res += '-' + vendors[i] + '-' + cap + ':' + value + ';';
+    for(i = _vendors.length; i--; )
+      res += '-' + _vendors[i] + '-' + cap + ':' + value + ';';
     return res + property + ':' + value + ';';
   }
   
