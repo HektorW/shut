@@ -1,6 +1,6 @@
 /* global requestAnimationFrame */
 
-define(['threejs'], function(Three) {
+define(['threejs', 'util/Color'], function(Three, Color) {
 	function App() {
 
 	}
@@ -20,15 +20,15 @@ define(['threejs'], function(Three) {
 
 		var geometry = new Three.CubeGeometry(1, 1, 1);
 		var material = new Three.MeshPhongMaterial({
-			color: 0xFF4136
+			color: Color.orange
 		});
-		material.wireframe = true;
-		material.side = Three.DoubleSide;
+		material.wireframe = false;
+		// material.side = Three.DoubleSide;
 		this.cube = new Three.Mesh(geometry, material);
 		this.scene.add(this.cube);
 
 
-		this.light = new Three.PointLight(0xffffff, 1, 100);
+		this.light = new Three.PointLight(Color.white, 1, 100);
 		this.light.position.set(5, 5, 5);
 		this.scene.add(this.light);
 
