@@ -1,9 +1,18 @@
 /* global requestAnimationFrame */
 
-define(['threejs', 'util/Color'], function(Three, Color) {
-	function App() {
+define([
+	'threejs',
+	'util/Color',
+	'controls/keyboard'
+], function(
+	Three,
+	Color,
+	Keyboard
+	) {
 
-	}
+
+
+	function App() {}
 
 
 	App.prototype.init = function() {

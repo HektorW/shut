@@ -3,6 +3,9 @@ require.config({
   shim: {
     threejs: {
       exports: 'THREE'
+    },
+    underscore: {
+      exports: '_'
     }
   },
 
@@ -11,7 +14,10 @@ require.config({
     underscore: '../bower_components/underscore/underscore',
     threejs: '../bower_components/threejs/build/three',
 
-    classy: '../libs/Classy.js/src',
+    // own
+    classy: '../libs/Classy.js/src/classy',
+    events: '../libs/events/dev/scripts/events',
+    dom: '../libs/HeQuery/src/HeQuery',
 
     text: '../bower_components/requirejs-text/text',
     templates: '../templates'
