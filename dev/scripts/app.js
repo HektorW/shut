@@ -19,7 +19,8 @@ define([
 
 		this.scene = new Three.Scene();
 		this.camera = new Three.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
-		this.camera.position.z = 5.0;
+		// this.camera = new Three.OrthographicCamera( window.innerWidth / - 2, window.innerWidth / 2, window.innerHeight / 2, window.innerHeight / - 2, 0.1, 1000 );
+		this.camera.position.z = 7.0;
 
 		this.renderer = new Three.CanvasRenderer();
 		this.renderer.setSize(window.innerWidth, window.innerHeight);
@@ -41,16 +42,33 @@ define([
 		this.light.position.set(5, 5, 5);
 		this.scene.add(this.light);
 
+
+		this.velx = 0.0;
+		this.vely = 0.0;
+
+		var keyboard = this.keyboard = new Keyboard();
+		var speed = 1.5;
+		keyboard.on('up:start', function() { this.vely += speed; }, this);
+		keyboard.on('up:end', function() { this.vely -= speed; }, this);
+		keyboard.on('down:start', function() { this.vely -= speed; }, this);
+		keyboard.on('down:end', function() { this.vely += speed; }, this);
+		keyboard.on('right:start', function() { this.velx += speed; }, this);
+		keyboard.on('right:end', function() { this.velx -= speed; }, this);
+		keyboard.on('left:start', function() { this.velx -= speed; }, this);
+		keyboard.on('left:end', function() { this.velx += speed; }, this);
+
+
 		this._boundUpdate = this.update.bind(this);
 		requestAnimationFrame(this._boundUpdate);
 	};
 
 
 	App.prototype.update = function( /*time*/ ) {
-		this.draw();
 
-		this.cube.rotation.x += 0.01;
-		this.cube.rotation.y += 0.01;
+		this.cube.position.x += this.velx * 0.016;
+		this.cube.position.y += this.vely * 0.016;
+
+		this.draw();
 
 		requestAnimationFrame(this._boundUpdate);
 	};

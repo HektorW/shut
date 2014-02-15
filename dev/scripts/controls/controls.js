@@ -8,8 +8,10 @@ define([
   Events
   ) {
   
-  var Controls = Classy.extend({});
-  _.extend(Controls, Events);
+  var Controls = Classy.extend({
+    __init__: function() {}
+  });
+  _.extend(Controls.prototype, Events);
 
   return Controls;  
 
