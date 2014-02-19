@@ -3,11 +3,15 @@
 define([
 	'threejs',
 	'util/Color',
-	'controls/keyboard'
+	'controls/keyboard',
+	'camera',
+	'objects/BaseObject'
 ], function(
 	Three,
 	Color,
-	Keyboard
+	Keyboard,
+	Camera,
+	BaseObject
 	) {
 
 
@@ -18,9 +22,7 @@ define([
 	App.prototype.init = function() {
 
 		this.scene = new Three.Scene();
-		this.camera = new Three.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
-		// this.camera = new Three.OrthographicCamera( window.innerWidth / - 2, window.innerWidth / 2, window.innerHeight / 2, window.innerHeight / - 2, 0.1, 1000 );
-		this.camera.position.z = 7.0;
+		this.camera = new Camera();
 
 		this.renderer = new Three.CanvasRenderer();
 		this.renderer.setSize(window.innerWidth, window.innerHeight);
@@ -28,14 +30,9 @@ define([
 		this.rootElement = document.getElementById('root');
 		this.rootElement.appendChild(this.renderer.domElement);
 
-		var geometry = new Three.CubeGeometry(1, 1, 1);
-		var material = new Three.MeshPhongMaterial({
-			color: Color.orange
-		});
-		material.wireframe = false;
-		// material.side = Three.DoubleSide;
-		this.cube = new Three.Mesh(geometry, material);
-		this.scene.add(this.cube);
+
+		this.cube = new BaseObject();
+		this.scene.add(this.cube.instance);
 
 
 		this.light = new Three.PointLight(Color.white, 1, 100);
@@ -65,8 +62,8 @@ define([
 
 	App.prototype.update = function( /*time*/ ) {
 
-		this.cube.position.x += this.velx * 0.016;
-		this.cube.position.y += this.vely * 0.016;
+		// this.cube.position.x += this.velx * 0.016;
+		// this.cube.position.y += this.vely * 0.016;
 
 		this.draw();
 
@@ -74,7 +71,7 @@ define([
 	};
 
 	App.prototype.draw = function() {
-		this.renderer.render(this.scene, this.camera);
+		this.renderer.render(this.scene, this.camera.camera);
 	};
 
 	return App;
