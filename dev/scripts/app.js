@@ -44,7 +44,7 @@ define([
 		this.vely = 0.0;
 
 		var keyboard = this.keyboard = new Keyboard();
-		var speed = 1.5;
+		var speed = 3.5;
 		keyboard.on('up:start', function() { this.vely += speed; }, this);
 		keyboard.on('up:end', function() { this.vely -= speed; }, this);
 		keyboard.on('down:start', function() { this.vely -= speed; }, this);

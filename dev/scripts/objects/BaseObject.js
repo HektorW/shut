@@ -3,10 +3,11 @@ define([
 	'classy',
 	'util/color'
 ], function(Three, Classy, Color) {
-	var GameObject = Classy({
+
+
+	var BaseObject = Classy({
 		// Vars
 		_active: false,
-
 
 		// Methods
 		__init__: function() {
@@ -32,5 +33,5 @@ define([
 		draw: function() {}
 	});
 
-	return GameObject;
+	return BaseObject;
 });

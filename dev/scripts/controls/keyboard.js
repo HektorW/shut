@@ -18,19 +18,19 @@ define([
 
     // default keybindings
     keybindings: {
-      'up arrow': {
+      'w': {
         action: 'up',
         startedAt: null
       },
-      'down arrow': {
+      's': {
         action: 'down',
         startedAt: null
       },
-      'left arrow': {
+      'a': {
         action: 'left',
         startedAt: null
       },
-      'right arrow': {
+      'd': {
         action: 'right',
         startedAt: null
       }
