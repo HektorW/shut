@@ -4,12 +4,14 @@ define([
 	'threejs',
 	'util/Color',
 	'controls/keyboard',
+	'controls/mouse',
 	'camera',
 	'objects/BaseObject'
 ], function(
 	Three,
 	Color,
 	Keyboard,
+	Mouse,
 	Camera,
 	BaseObject
 	) {
@@ -35,9 +37,9 @@ define([
 		this.scene.add(this.cube.instance);
 
 
-		this.light = new Three.PointLight(Color.white, 1, 100);
+		/*this.light = new Three.PointLight(Color.white, 1, 100);
 		this.light.position.set(0, 0, 5);
-		this.scene.add(this.light);
+		this.scene.add(this.light);*/
 
 
 		this.velx = 0.0;
@@ -54,6 +56,11 @@ define([
 		keyboard.on('left:start', function() { this.velx -= speed; }, this);
 		keyboard.on('left:end', function() { this.velx += speed; }, this);
 
+
+		var mouse = this.mouse = new Mouse();
+		mouse.on('mouse:move', function() { 
+			this.cube.instance.rotateZ(0.16);
+		}, this);
 
 		this._boundUpdate = this.update.bind(this);
 		requestAnimationFrame(this._boundUpdate);

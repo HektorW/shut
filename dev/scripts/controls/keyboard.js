@@ -18,11 +18,11 @@ define([
 
     // default keybindings
     keybindings: {
-      'w': {
+      's': {
         action: 'up',
         startedAt: null
       },
-      's': {
+      'w': {
         action: 'down',
         startedAt: null
       },
