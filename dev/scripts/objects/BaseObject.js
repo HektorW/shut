@@ -1,12 +1,24 @@
 define([
-	'classy'
-], function(Classy) {
+	'threejs',
+	'classy',
+	'util/color'
+], function(Three, Classy, Color) {
 	var GameObject = Classy({
 		// Vars
 		_active: false,
 
 
 		// Methods
+		__init__: function() {
+
+			var geometry = new Three.CubeGeometry(1, 1, 1);
+			var material = new Three.MeshPhongMaterial({
+				color: Color.orange
+			});
+			
+			this.instance = new Three.Mesh(geometry, material);
+		},
+
 		activate: function() {
 			this._active = true;
 		},
