@@ -60,9 +60,12 @@ define([
 
     // event listeners
     keydown: function(event) {
-      var binding = this.keycodeBinding(event.keyCode);
-      if(!binding || binding.startedAt)
+      var keyCode = event.keyCode;
+      var binding = this.keycodeBinding(keyCode);
+      if(!binding || binding.startedAt) {
+        this.trigger('key:'+keycodes[keyCode]+':down');
         return;
+      }
 
       binding.startedAt = performance.now();
       this.trigger(binding.action + ':start', {
@@ -70,9 +73,12 @@ define([
       });
     },
     keyup: function(event) {
-      var binding = this.keycodeBinding(event.keyCode);
-      if(!binding || !binding.startedAt)
+      var keyCode = event.keyCode;
+      var binding = this.keycodeBinding(keyCode);
+      if(!binding || !binding.startedAt) {
+        this.trigger('key:'+keycodes[keyCode]+':up');
         return;
+      }
       
 
       this.trigger(binding.action + ':end', {

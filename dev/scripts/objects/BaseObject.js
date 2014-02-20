@@ -5,7 +5,7 @@ define([
 ], function(Three, Classy, Color) {
 
 
-	var BaseObject = Classy({
+	var BaseObject = Classy.extend({
 		// Vars
 		_active: false,
 

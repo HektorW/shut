@@ -36,7 +36,7 @@ define([
 
 
 		this.light = new Three.PointLight(Color.white, 1, 100);
-		this.light.position.set(5, 5, 5);
+		this.light.position.set(0, 0, 5);
 		this.scene.add(this.light);
 
 
@@ -62,8 +62,8 @@ define([
 
 	App.prototype.update = function( /*time*/ ) {
 
-		// this.cube.position.x += this.velx * 0.016;
-		// this.cube.position.y += this.vely * 0.016;
+		this.cube.instance.position.x += this.velx * 0.016;
+		this.cube.instance.position.y += this.vely * 0.016;
 
 		this.draw();
 
