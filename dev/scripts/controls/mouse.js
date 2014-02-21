@@ -6,6 +6,12 @@ define([
 ], function($, _, Three, Controls) {
 
   var Mouse = Controls.extend({
+
+    // vars
+    x: -1,
+    y: -1,
+
+    // methods
     __init__: function(opt) {
       this.supr(opt);
 
@@ -32,25 +38,34 @@ define([
     mouseup: function(event) {
       event.preventDefault();
 
+      this.x = event.pageX;
+      this.y = event.pageY;
+
       this.trigger('mouse:up', {
-        x: event.pageX,
-        y: event.pageY
+        x: this.x,
+        y: this.y
       });
     },
     mousedown: function(event) {
       event.preventDefault();
 
+      this.x = event.pageX;
+      this.y = event.pageY;
+
       this.trigger('mouse:down', {
-        x: event.pageX,
-        y: event.pageY
+        x: this.x,
+        y: this.y
       });
     },
     mousemove: function(event) {
       event.preventDefault();
 
+      this.x = event.pageX;
+      this.y = event.pageY;
+
       this.trigger('mouse:move', {
-        x: event.pageX,
-        y: event.pageY
+        x: this.x,
+        y: this.y
       });
       this.triggerDirection(event.pageX, event.pageY);
     },

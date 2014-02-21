@@ -2,18 +2,22 @@
 
 define([
 	'threejs',
+	'underscore',
 	'util/Color',
 	'controls/keyboard',
 	'controls/mouse',
 	'controls/gamepad',
+	'time',
 	'camera',
 	'objects/BaseObject'
 ], function(
 	Three,
+	_,
 	Color,
 	Keyboard,
 	Mouse,
 	Gamepad,
+	Time,
 	Camera,
 	BaseObject
 	) {
@@ -38,6 +42,7 @@ define([
 		this.cube = new BaseObject();
 		this.scene.add(this.cube.instance);
 
+		this.time = new Time();
 
 		var light = new Three.PointLight(Color.white, 1, 100);
 		light.position.set(0, 0, -10);
@@ -49,62 +54,55 @@ define([
 
 
 		this.strafe = 0.0;
+		this.velY = 0.0;
+		this.velX = 0.0;
 		this.vel = 0.0;
 
 		var keyboard = this.keyboard = new Keyboard({ baseObject: this.cube });
-		keyboard.on('up:start', function() { this.vel = 1; }, this);
-		// keyboard.on('up:end', function() { this.vel -= speed; }, this);
-		// keyboard.on('down:start', function() { this.vel -= speed; }, this);
-		// keyboard.on('down:end', function() { this.vel += speed; }, this);
-		// keyboard.on('right:start', function() { this.strafe += speed; }, this);
-		// keyboard.on('right:end', function() { this.strafe -= speed; }, this);
-		// keyboard.on('left:start', function() { this.strafe -= speed; }, this);
-		// keyboard.on('left:end', function() { this.strafe += speed; }, this);
+		keyboard.on('up:start', function() { this.velY = -1; this.vel = 1.0; }, this);
+		keyboard.on('down:start', function() { this.velY = 1; this.vel = 1.0; }, this);
+		keyboard.on('right:start', function() { this.velX = 1; this.vel = 1.0; }, this);
+		keyboard.on('left:start', function() { this.velX = -1; this.vel = 1.0; }, this);
 
 
-		//var mouse = this.mouse = new Mouse({ baseObject: this.cube });
-		//mouse.on('direction', function(data) { 
-		//	window.DEBUG('angle', data.angle);
-		//	this.cube.instance.rotation.z = data.angle;
-		//}, this);
-		var gamepad = this.gamepad = new Gamepad({ baseObject: this.cube });
-		gamepad.on('direction', function(data) {
-			this.cube.instance.rotation.z = data.angle;
-			window.DEBUG('angle', data.angle);
-		}, this);
-		gamepad.on('move', function(data) {
-			this.vel = -data.dirY;
-		}, this);
-
-		this._boundUpdate = this.update.bind(this);
-		requestAnimationFrame(this._boundUpdate);
+		this.mouse = new Mouse({ baseObject: this.cube });
+		_.bindAll(this, 'update');
+		this.time.start();
+		requestAnimationFrame(this.update);
 	};
 
 
 	App.prototype.update = function( /*time*/ ) {
+		requestAnimationFrame(this.update);
+		this.time.update();
 
-		this.gamepad.update();
-
-		if(!this.keyboard.isKeyDown('w')) {
-			this.vel -= 0.25;
-			if(this.vel < 0.0)
-				this.vel = 0.0;
-		}
+		// this.gamepad.update();
 
 		// this.cube.instance.position.x += this.strafe * 0.016;
 		var dx = Math.cos(this.cube.instance.rotation.z);
 		var dy = Math.sin(this.cube.instance.rotation.z);
 		var pos = this.cube.instance.position;
 
-		var speed = 7.5;
-		pos.x += this.vel * dx * speed * 0.016;
-		pos.y += this.vel * dy * speed * 0.016;
+		var vel = new Three.Vector2(this.velX, this.velY);
+		vel.setLength(this.vel);
+
+		var speed = 20;
+		pos.x += vel.x * speed * 0.016;
+		pos.y += vel.y * speed * 0.016;
+
+		if(!this.keyboard.isKeyDown('w') && !this.keyboard.isKeyDown('s') && !this.keyboard.isKeyDown('a') && !this.keyboard.isKeyDown('d'))
+			this.vel *= 0.9;
+		if(Math.abs(this.vel) < 0.01)
+			this.vel = 0.0;
 
 		window.DEBUG('position', pos.x, pos.y, pos.z);
 
-		this.draw();
+		var s = (1 + (Math.cos(this.time.sinceStart*5.0) * 0.4));
+		this.cube.instance.scale.x = s;
+		this.cube.instance.scale.y = s;
+		this.cube.instance.scale.z = s;
 
-		requestAnimationFrame(this._boundUpdate);
+		this.draw();
 	};
 
 	App.prototype.draw = function() {

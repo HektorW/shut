@@ -8,7 +8,6 @@
     "require": true,
     "define": true,
     "$": true,
-    "jQuery": true,
-    "Modernizr": true
+    "performance": true
   }
 }
