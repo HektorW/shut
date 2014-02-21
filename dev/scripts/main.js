@@ -15,7 +15,7 @@ require.config({
     threejs: '../bower_components/threejs/build/three',
 
     // own
-    classy: '../libs/Classy.js/src/classy',
+    classy: '../libs/Classy/src/classy',
     events: '../libs/events/dev/scripts/events',
     dom: '../libs/HeQuery/src/HeQuery',
 

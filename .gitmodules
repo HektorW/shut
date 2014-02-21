@@ -1,0 +1,9 @@
+[submodule "dev/libs/Classy"]
+	path = dev/libs/Classy
+	url = https://github.com/HektorW/Classy.js.git
+[submodule "dev/libs/HeQuery"]
+	path = dev/libs/HeQuery
+	url = https://github.com/HektorW/HeQuery.git
+[submodule "dev/libs/events"]
+	path = dev/libs/events
+	url = https://github.com/HektorW/events.git

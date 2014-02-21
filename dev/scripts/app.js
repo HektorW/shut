@@ -45,7 +45,7 @@ define([
 		this.velx = 0.0;
 		this.vely = 0.0;
 
-		var keyboard = this.keyboard = new Keyboard();
+		var keyboard = this.keyboard = new Keyboard({ baseObject: this.cube });
 		var speed = 3.5;
 		keyboard.on('up:start', function() { this.vely += speed; }, this);
 		keyboard.on('up:end', function() { this.vely -= speed; }, this);
@@ -57,9 +57,9 @@ define([
 		keyboard.on('left:end', function() { this.velx += speed; }, this);
 
 
-		var mouse = this.mouse = new Mouse();
-		mouse.on('mouse:move', function() { 
-			this.cube.instance.rotateZ(0.16);
+		var mouse = this.mouse = new Mouse({ baseObject: this.cube });
+		mouse.on('direction', function(data) { 
+			this.cube.instance.rotateZ(data.angle);
 		}, this);
 
 		this._boundUpdate = this.update.bind(this);

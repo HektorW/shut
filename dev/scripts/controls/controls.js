@@ -9,7 +9,11 @@ define([
   ) {
   
   var Controls = Classy.extend({
-    __init__: function() {}
+
+    __init__: function(opt) {
+      this._baseObject = opt.baseObject;
+    }
+
   });
   _.extend(Controls.prototype, Events);
 

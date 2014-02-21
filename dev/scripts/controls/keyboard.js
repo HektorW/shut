@@ -38,8 +38,8 @@ define([
     //------
 
     // functions
-    __init__: function() {
-      this.supr();
+    __init__: function(opt) {
+      this.supr(opt);
 
       this.bindEvents();
     },
