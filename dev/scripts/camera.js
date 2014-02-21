@@ -9,11 +9,11 @@ define([
 			var h = window.innerHeight / 100;
 
 			// this.camera = new Three.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
-			this.camera = new Three.OrthographicCamera(w / -2, w / 2, h / -2, h / 2, 1, 20);
-			this.camera.position.z = 7.0;
+			this.camera = new Three.OrthographicCamera(w / -2, w / 2, h / -2, h / 2, 1, 100);
+			this.camera.position.z = 40.0;
 		},
 
-		update: function(time) {}
+		update: function() {}
 	});
 
 	return Camera;

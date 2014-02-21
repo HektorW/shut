@@ -33,17 +33,20 @@ require([
   Prefixer.prefixAll();
 
   window.DEBUG = (function(){
+    var _slice = [].slice;
+
     var $e = $('<div>');
     $e.css({
       position: 'fixed',
       left: '10px',
-      top: '10px'
+      top: '10px',
+      fontFamily: 'monospace'
     });
     $e.attr('id', 'debug');
     $(document.body).append($e);
 
     var d = function(id, message) {
-      if(!message) {
+      if(message === undefined) {
         message = id;
         id = null;
       }
@@ -51,10 +54,11 @@ require([
       if(id) {
         var $id = $e.find('#'+id);
         if(!$id.length) {
-          var $temp = $('<p>'+id+' <span id="'+id+'"></span></p>');
+          var $temp = $('<p>'+id+': <span id="'+id+'"></span></p>');
           $e.append($temp);
           $id = $temp.find('#'+id);
         }
+        message = _slice.call(arguments, 1).join(', ');
         $id.html(message);
       } else {
         $e.append('<p>'+message+'</p>');

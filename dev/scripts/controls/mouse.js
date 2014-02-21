@@ -59,9 +59,15 @@ define([
     },
 
     triggerDirection: function(mouseX, mouseY) {
+      var ox = this._baseObject.instance.position.x;
+      var oy = this._baseObject.instance.position.y;
+
+      ox = window.innerWidth / 2;
+      oy = window.innerHeight / 2;
+
       var v = new Three.Vector2(
-        mouseX - this._baseObject.instance.position.x,
-        mouseY - this._baseObject.instance.position.y
+        mouseX - ox,
+        mouseY - oy
       );
       v.normalize();
 

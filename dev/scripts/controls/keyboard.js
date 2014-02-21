@@ -18,11 +18,11 @@ define([
 
     // default keybindings
     keybindings: {
-      's': {
+      'w': {
         action: 'up',
         startedAt: null
       },
-      'w': {
+      's': {
         action: 'down',
         startedAt: null
       },
@@ -35,6 +35,8 @@ define([
         startedAt: null
       }
     },
+
+    _pressed: {},
     //------
 
     // functions
@@ -61,19 +63,21 @@ define([
     // event listeners
     keydown: function(event) {
       var keyCode = event.keyCode;
+      this._pressed[keycodes[keyCode]] = true;
       var binding = this.keycodeBinding(keyCode);
       if(!binding || binding.startedAt) {
         this.trigger('key:'+keycodes[keyCode]+':down');
         return;
       }
 
-      binding.startedAt = performance.now();
+      binding.startedAt = window.performance.now();
       this.trigger(binding.action + ':start', {
         startedAt: binding.startedAt
       });
     },
     keyup: function(event) {
       var keyCode = event.keyCode;
+      this._pressed[keycodes[keyCode]] = false;
       var binding = this.keycodeBinding(keyCode);
       if(!binding || !binding.startedAt) {
         this.trigger('key:'+keycodes[keyCode]+':up');
@@ -83,13 +87,17 @@ define([
 
       this.trigger(binding.action + ':end', {
         startedAt: binding.startedAt,
-        duration: performance.now() - binding.startedAt
+        duration: window.performance.now() - binding.startedAt
       });
       binding.startedAt = null;
     },
     keycodeBinding: function(keycode) {
       var key = keycodes[keycode];
       return this.keybindings[key];
+    },
+
+    isKeyDown: function(key) {
+      return this._pressed[key];
     },
 
     actionDuration: function(action) {
@@ -106,7 +114,7 @@ define([
         binding = null;
       }
       if(binding.startedAt) {
-        return performance.now() - binding.startedAt;
+        return window.performance.now() - binding.startedAt;
       }
       return 0;
     }

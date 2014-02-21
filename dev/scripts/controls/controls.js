@@ -12,7 +12,9 @@ define([
 
     __init__: function(opt) {
       this._baseObject = opt.baseObject;
-    }
+    },
+
+    update: function() {}
 
   });
   _.extend(Controls.prototype, Events);
