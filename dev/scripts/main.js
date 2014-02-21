@@ -25,12 +25,48 @@ require.config({
 });
 
 require([
+  'dom',
   'prefixer',
   'app'
-], function(Prefixer, App) {
+], function($, Prefixer, App) {
 
   Prefixer.prefixAll();
 
+  window.DEBUG = (function(){
+    var $e = $('<div>');
+    $e.css({
+      position: 'fixed',
+      left: '10px',
+      top: '10px'
+    });
+    $e.attr('id', 'debug');
+    $(document.body).append($e);
+
+    var d = function(id, message) {
+      if(!message) {
+        message = id;
+        id = null;
+      }
+
+      if(id) {
+        var $id = $e.find('#'+id);
+        if(!$id.length) {
+          var $temp = $('<p>'+id+' <span id="'+id+'"></span></p>');
+          $e.append($temp);
+          $id = $temp.find('#'+id);
+        }
+        $id.html(message);
+      } else {
+        $e.append('<p>'+message+'</p>');
+      }
+    };
+
+    return d;
+  }());
+
   new App().init();
+
+  window.DEBUG('Initialized');
+
 });
 

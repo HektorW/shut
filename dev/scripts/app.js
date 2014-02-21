@@ -59,7 +59,8 @@ define([
 
 		var mouse = this.mouse = new Mouse({ baseObject: this.cube });
 		mouse.on('direction', function(data) { 
-			this.cube.instance.rotateZ(data.angle);
+			window.DEBUG('angle', data.angle);
+			this.cube.instance.rotation.z = data.angle;
 		}, this);
 
 		this._boundUpdate = this.update.bind(this);
