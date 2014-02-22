@@ -1,3 +1,7 @@
+/**
+ * Main entry point of app
+ * configures and creates an app
+ */
 
 require.config({
   shim: {
@@ -26,11 +30,8 @@ require.config({
 
 require([
   'dom',
-  'prefixer',
   'app'
-], function($, Prefixer, App) {
-
-  Prefixer.prefixAll();
+], function($, App) {
 
   window.DEBUG = (function(){
     var _slice = [].slice;

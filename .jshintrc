@@ -8,6 +8,7 @@
     "require": true,
     "define": true,
     "$": true,
-    "performance": true
+    "performance": true,
+    "requestAnimationFrame": true
   }
 }

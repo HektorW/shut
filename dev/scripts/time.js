@@ -33,5 +33,5 @@ define(['classy'], function(Classy) {
 
 	});
 
-	return Time;
+	return new Time();
 });

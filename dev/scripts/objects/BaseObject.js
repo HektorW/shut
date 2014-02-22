@@ -10,14 +10,8 @@ define([
 		_active: false,
 
 		// Methods
-		__init__: function() {
-
-			var geometry = new Three.CubeGeometry(1, 1, 1);
-			var material = new Three.MeshPhongMaterial({
-				color: Color.orange
-			});
-			
-			this.instance = new Three.Mesh(geometry, material);
+		__init__: function(game) {
+			this.game = game;
 		},
 
 		activate: function() {
@@ -28,13 +22,13 @@ define([
 			this._active = false;
 		},
 
-		update: function( /*time*/ ) {
-
-			
-			
+		update: function(time) {
 		},
 
-		draw: function() {}
+		draw: function() {
+			// calculate some world matrix
+			// and update animations
+		}
 	});
 
 	return BaseObject;
