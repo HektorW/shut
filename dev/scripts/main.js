@@ -53,9 +53,11 @@ require([
       }
 
       if(id) {
+        var name = id;
+        id = id.replace(' ', '-');
         var $id = $e.find('#'+id);
         if(!$id.length) {
-          var $temp = $('<p>'+id+': <span id="'+id+'"></span></p>');
+          var $temp = $('<p>'+name+': <span id="'+id+'"></span></p>');
           $e.append($temp);
           $id = $temp.find('#'+id);
         }

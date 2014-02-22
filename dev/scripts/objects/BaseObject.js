@@ -12,6 +12,7 @@ define([
 		// Methods
 		__init__: function(game) {
 			this.game = game;
+			this.activate();
 		},
 
 		activate: function() {
@@ -22,7 +23,7 @@ define([
 			this._active = false;
 		},
 
-		update: function(time) {
+		update: function() {
 		},
 
 		draw: function() {

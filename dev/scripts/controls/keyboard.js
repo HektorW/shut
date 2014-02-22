@@ -19,7 +19,8 @@ define([
     actionbindings: {},
     actionbindingsInvert: {},
 
-    _pressedTime: {},
+    // how long the buttons been pressed
+    pressedDuration: {},
     //------
 
     // functions
@@ -93,7 +94,7 @@ define([
       }
 
       this.trigger('key:'+KEYCODES[keyCode]+':down', data);
-      this._pressedTime[key] = t;
+      this.pressedDuration[key] = t;
     },
 
     keyup: function(event) {
@@ -102,7 +103,7 @@ define([
           t = performance.now(),
           key = KEYCODES[keyCode];
 
-      startedAt = this._pressedTime[key];
+      startedAt = this.pressedDuration[key];
 
       data = {
         startedAt: startedAt,
@@ -115,21 +116,12 @@ define([
       }
 
       this.trigger('key:'+key+':up', data);
-      this._pressedTime[key] = 0.0;
-    },
-
-    isKeyDown: function(key) {
-      return this._pressedTime[key] > 0.0;
-    },
-
-    keyDownDuration: function(key) {
-      var t = this._pressedTime[key];
-      return t > 0.0 ? performance.now() - t : 0.0;
+      this.pressedDuration[key] = 0.0;
     },
 
     actionDuration: function(action) {
       var key = this.actionbindings[action];
-      return this.keyDownDuration(key);
+      return this.buttonDownDuration(key);
     }
 
   });

@@ -15,8 +15,8 @@ define([
 
 
 		updateProjection: function() {
-			var w = this.game.width / 100;
-			var h = this.game.height / 100;
+			var w = this.width = 30;// this.game.width / 100;
+			var h = this.height = window.innerHeight / window.innerWidth  * w;// this.game.height / 100;
 
 			var pos;
 			if(this.camera)
@@ -26,6 +26,36 @@ define([
 
 			if(pos)
 				this.camera.position = pos;
+		},
+
+
+		screenToWorldPosition: function(screenX, screenY) {
+			var x = screenX / window.innerWidth;
+			var y = screenY / window.innerHeight;
+
+			x *= this.width;
+			y *= this.height;
+
+			x -= this.width / 2;
+			y -= this.height / 2;
+
+			x += this.camera.position.x;
+			y += this.camera.position.y;
+
+			return [x, y];
+		},
+
+		isPointInFrustum: function(posx, posy) {
+			//posx -= this.width / 2;
+			//posy -= this.height / 2;
+			
+			var w = this.width;
+			var h = this.height;
+
+			var cx = this.camera.position.x - w / 2;
+			var cy = this.camera.position.y - h / 2;
+
+			return (posx > cx && posx < cx + w && posy > cy && posy < cy + h);
 		}
 	});
 

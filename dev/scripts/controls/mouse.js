@@ -5,11 +5,22 @@ define([
   'controls/controls'
 ], function($, _, Three, Controls) {
 
+  var BUTTONS = {
+    '0': 'left',
+    '1': 'middle',
+    '2': 'right'
+  }
+
   var Mouse = Controls.extend({
 
     // vars
     x: -1,
     y: -1,
+    pressedDuration: {
+      'left': 0.0,
+      'right': 0.0,
+      'middle': 0.0
+    },
 
     // methods
     __init__: function() {
@@ -40,10 +51,14 @@ define([
     mouseup: function(event) {
       event.preventDefault();
 
+      var btn = BUTTONS[event.button];
+      this.pressedDuration[btn] = 0.0;
+
       this.x = event.pageX;
       this.y = event.pageY;
 
       this.trigger('mouse:up', {
+        button: btn,
         x: this.x,
         y: this.y
       });
@@ -51,10 +66,14 @@ define([
     mousedown: function(event) {
       event.preventDefault();
 
+      var btn = BUTTONS[event.button];
+      this.pressedDuration[btn] = performance.now();
+
       this.x = event.pageX;
       this.y = event.pageY;
 
       this.trigger('mouse:down', {
+        button: btn,
         x: this.x,
         y: this.y
       });
@@ -75,6 +94,7 @@ define([
       event.preventDefault();
     },
 
+    
     triggerDirection: function(mouseX, mouseY) {
       var ox = this._baseObject.instance.position.x;
       var oy = this._baseObject.instance.position.y;

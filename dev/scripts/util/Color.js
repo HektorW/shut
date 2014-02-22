@@ -17,6 +17,21 @@ define([], function() {
     white: 0xffffff,
     silver: 0xdddddd,
     gray: 0xaaaaaa,
-    black: 0x111111
+    black: 0x111111,
+
+
+    random: function() {
+
+        var a = [];
+        for(var c in this) {
+            if(!this.hasOwnProperty(c))
+                continue;
+
+            if(typeof this[c] === 'number')
+                a.push(this[c]);
+        }
+
+        return a[parseInt(Math.random() * a.length, 10)];
+    }
   };
 });
