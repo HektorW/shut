@@ -1,13 +1,12 @@
 define([
   'dom',
   'underscore',
-  'controls/controls',
+  'controls/controls'
 ], function(
   $,
   _,
   Controls
   ) {
-
 
 
 
@@ -17,33 +16,50 @@ define([
     $window: null,
 
     // default keybindings
-    keybindings: {
-      'w': {
-        action: 'up',
-        startedAt: null
-      },
-      's': {
-        action: 'down',
-        startedAt: null
-      },
-      'a': {
-        action: 'left',
-        startedAt: null
-      },
-      'd': {
-        action: 'right',
-        startedAt: null
-      }
-    },
+    actionbindings: {},
+    actionbindingsInvert: {},
 
-    _pressed: {},
+    _pressedTime: {},
     //------
 
     // functions
-    __init__: function(opt) {
-      this.supr(opt);
+    __init__: function() {
+      this.supr();
+    },
 
+    init: function() {
       this.bindEvents();
+      this.setKeyBindings({
+        'up': 'w',
+        'down': 's',
+        'left': 'a',
+        'right': 'd'
+      });
+    },
+
+    /**
+     * function allows (re-)binding of action keys
+     */
+    setKeyBindings: function(bindings, arg2) {
+      var t, keys, actionbindings;
+
+      if(typeof arg2 !== 'undefined') {
+        // if arg2 is supplied
+        // bindings and arg2 must be strings
+        t = bindings;
+        bindings = {};
+        bindings[t] = arg2;
+      }
+
+      keys = _.invert(KEYCODES);
+      actionbindings = this.actionbindings;
+      _.each(bindings, function(value, action) {
+        if(!keys[value])
+          return;
+        actionbindings[action] = value;
+      }, this);
+
+      this.actionbindingsInvert = _.invert(this.actionbindings);
     },
 
     bindEvents: function() {
@@ -62,61 +78,58 @@ define([
 
     // event listeners
     keydown: function(event) {
-      var keyCode = event.keyCode;
-      this._pressed[keycodes[keyCode]] = true;
-      var binding = this.keycodeBinding(keyCode);
-      if(!binding || binding.startedAt) {
-        this.trigger('key:'+keycodes[keyCode]+':down');
-        return;
+      var action, data,
+          keyCode = event.keyCode,
+          key = KEYCODES[keyCode],
+          t = performance.now();
+
+      data = {
+        startedAt: t
+      };
+
+      action = this.actionbindingsInvert[key];
+      if(action) {
+        this.trigger(action + ':start', data);
       }
 
-      binding.startedAt = window.performance.now();
-      this.trigger(binding.action + ':start', {
-        startedAt: binding.startedAt
-      });
+      this.trigger('key:'+KEYCODES[keyCode]+':down', data);
+      this._pressedTime[key] = t;
     },
+
     keyup: function(event) {
-      var keyCode = event.keyCode;
-      this._pressed[keycodes[keyCode]] = false;
-      var binding = this.keycodeBinding(keyCode);
-      if(!binding || !binding.startedAt) {
-        this.trigger('key:'+keycodes[keyCode]+':up');
-        return;
-      }
-      
+      var action, startedAt, data,
+          keyCode = event.keyCode,
+          t = performance.now(),
+          key = KEYCODES[keyCode];
 
-      this.trigger(binding.action + ':end', {
-        startedAt: binding.startedAt,
-        duration: window.performance.now() - binding.startedAt
-      });
-      binding.startedAt = null;
-    },
-    keycodeBinding: function(keycode) {
-      var key = keycodes[keycode];
-      return this.keybindings[key];
+      startedAt = this._pressedTime[key];
+
+      data = {
+        startedAt: startedAt,
+        duration: t - startedAt
+      };
+
+      action = this.actionbindingsInvert[key];
+      if(action) {
+        this.trigger(action + ':end', data);
+      }
+
+      this.trigger('key:'+key+':up', data);
+      this._pressedTime[key] = 0.0;
     },
 
     isKeyDown: function(key) {
-      return this._pressed[key];
+      return this._pressedTime[key] > 0.0;
+    },
+
+    keyDownDuration: function(key) {
+      var t = this._pressedTime[key];
+      return t > 0.0 ? performance.now() - t : 0.0;
     },
 
     actionDuration: function(action) {
-      var key,
-          binding = null,
-          bindings = this.keybindings;
-      for(key in bindings) {
-        if(!bindings.hasOwnProperty(key))
-          continue;
-
-        binding = bindings[key];
-        if(binding.action === action)
-          break;
-        binding = null;
-      }
-      if(binding.startedAt) {
-        return window.performance.now() - binding.startedAt;
-      }
-      return 0;
+      var key = this.actionbindings[action];
+      return this.keyDownDuration(key);
     }
 
   });
@@ -124,7 +137,7 @@ define([
 
 
 
-  var keycodes = {
+  var KEYCODES = {
     '8': 'backspace',
     '9': 'tab',
     '13': 'enter',
@@ -227,6 +240,6 @@ define([
 
 
 
-  return Keyboard;
+  return new Keyboard();
 });
 

@@ -12,9 +12,11 @@ define([
     y: -1,
 
     // methods
-    __init__: function(opt) {
-      this.supr(opt);
+    __init__: function() {
+      this.supr();
+    },
 
+    init: function () {
       this.bindEvents();
     },
 
@@ -67,7 +69,7 @@ define([
         x: this.x,
         y: this.y
       });
-      this.triggerDirection(event.pageX, event.pageY);
+      // this.triggerDirection(event.pageX, event.pageY);
     },
     contextmenu: function(event) {
       event.preventDefault();
@@ -98,5 +100,5 @@ define([
   });
 
 
-  return Mouse;
+  return new Mouse();
 });

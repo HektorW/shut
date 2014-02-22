@@ -10,9 +10,9 @@ define([
   
   var Controls = Classy.extend({
 
-    __init__: function(opt) {
-      this._baseObject = opt.baseObject;
-    },
+    __init__: function() {},
+
+    init: function() {},
 
     update: function() {}
 
