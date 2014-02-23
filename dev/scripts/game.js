@@ -45,6 +45,7 @@ define([
       this.camera = new Camera(this);
 
       this.renderer = new Three.WebGLRenderer();
+      this.renderer.setClearColor(Color.darken(Color.navy, 0.3));
 
       this.$root = $('#root').append(this.renderer.domElement);      
 
