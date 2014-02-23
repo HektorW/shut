@@ -36,6 +36,10 @@ define([
         specular: Color.orange,
         shading: Three.FlatShading
       });
+      this.material = new Three.MeshPhongMaterial({
+        map: Three.ImageUtils.loadTexture('res/ship.png'),
+        transparent: true
+      });
 
       this.instance = new Three.Mesh(this.geometry, this.material);
       this.instance.position.z = 1.0;
