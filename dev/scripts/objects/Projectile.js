@@ -28,14 +28,15 @@ define([
 
       this.x = settings.x;
       this.y = settings.y;
+      this.size = settings.size || 0.1;
       this.speed = settings.speed;
       this.dirX = settings.dirX;
       this.dirY = settings.dirY;
       this.angle = Math.atan2(this.dirY, this.dirX);
       this.vel = new Three.Vector3(this.dirX * this.speed, this.dirY * this.speed, 0);
 
-      this.geometry = new Three.SphereGeometry(0.1);
-      var color = Color.random();
+      this.geometry = new Three.SphereGeometry(this.size);
+      var color = settings.color || Color.random();
       this.material = new Three.MeshPhongMaterial({
         ambient: color,
         color: color,
