@@ -53,12 +53,6 @@ define([
       // three instance
       this.geometry = new Three.CubeGeometry(1, 1, 1);
       this.material = new Three.MeshPhongMaterial({
-        ambient: Color.orange,
-        color: Color.orange,
-        specular: Color.orange,
-        shading: Three.FlatShading
-      });
-      this.material = new Three.MeshPhongMaterial({
         map: Three.ImageUtils.loadTexture('res/ship.png'),
         transparent: true
       });
@@ -89,13 +83,10 @@ define([
 
       dir.normalize();
 
-      this.previousVel.lerp(dir, move.lerp);
-      DEBUG('prevVel', this.previousVel.x, this.previousVel.y);
+      this.previousVel.lerp(dir, this.move.lerp);
+      window.DEBUG('prevVel', this.previousVel.x, this.previousVel.y);
       
       position.add(this.previousVel.clone().multiplyScalar(elapsed * this.move.speed));
-
-
-
 
 
 

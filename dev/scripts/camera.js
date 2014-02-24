@@ -15,8 +15,8 @@ define([
 
 
 		updateProjection: function() {
-			var w = this.width = 30;// this.game.width / 100;
-			var h = this.height = window.innerHeight / window.innerWidth  * w;// this.game.height / 100;
+			var w = this.width = 30; // this.game.width / 100;
+			var h = this.height = window.innerHeight / window.innerWidth  * w; // this.game.height / 100;
 
 			var pos;
 			if(this.camera)
@@ -47,9 +47,6 @@ define([
 		},
 
 		isPointInFrustum: function(posx, posy) {
-			//posx -= this.width / 2;
-			//posy -= this.height / 2;
-			
 			var w = this.width;
 			var h = this.height;
 

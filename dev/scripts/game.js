@@ -71,7 +71,7 @@ define([
     },
 
     initLight: function() {
-      var ambientLight = new THREE.AmbientLight( Color.white );
+      var ambientLight = new Three.AmbientLight( Color.white );
       this.scene.add( ambientLight );
     },
 
@@ -87,8 +87,8 @@ define([
 
       this.updateProjectiles();
 
-      DEBUG('projectiles', this.projectiles.length);
-      DEBUG('objects', this.scene.children.length);
+      window.DEBUG('projectiles', this.projectiles.length);
+      window.DEBUG('objects', this.scene.children.length);
 
       // update controls last
       Keyboard.update();

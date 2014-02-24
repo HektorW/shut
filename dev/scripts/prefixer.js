@@ -12,10 +12,9 @@ define([], function() {
 
     obj = obj || {};
 
-    if(obj[functionName]) {
-      // if it already exists we are cool
+    // if it already exists we are cool
+    if(obj[functionName])
       return;
-    }
 
     cap = capitalize(functionName);
 

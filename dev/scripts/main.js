@@ -33,6 +33,7 @@ require([
   'app'
 ], function($, App) {
 
+  // DEBUG
   window.DEBUG = (function(){
     var _slice = [].slice;
 

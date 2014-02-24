@@ -12,7 +12,7 @@ define([], function() {
 
   function fixZeros(hexstr, length) {
     while(hexstr.length < length)
-        hexstr = '0'  + hexstr;
+      hexstr = '0'  + hexstr;
     return hexstr.substr(0, length);
   }
 

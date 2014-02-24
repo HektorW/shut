@@ -25,7 +25,6 @@ define([
 
       this.ship = ship;
 
-
       this.x = settings.x;
       this.y = settings.y;
       this.size = settings.size || 0.1;
@@ -43,14 +42,6 @@ define([
         specular: color,
         shading: Three.FlatShading
       });
-
-      // this.geometry = new Three.CubeGeometry(1, 1, 1);
-      //this.material = new Three.MeshPhongMaterial({
-      //  ambient: Color.orange,
-      //  color: Color.orange,
-      //  specular: Color.orange,
-      //  shading: Three.FlatShading
-      //});
 
       this.instance = new Three.Mesh(this.geometry, this.material);
       this.instance.position.x = settings.x;
