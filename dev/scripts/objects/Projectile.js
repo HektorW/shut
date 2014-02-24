@@ -35,13 +35,14 @@ define([
       this.vel = new Three.Vector3(this.dirX * this.speed, this.dirY * this.speed, 0);
 
       this.geometry = new Three.SphereGeometry(this.size);
-      var color = settings.color || Color.random();
+      var color = typeof settings.color === 'number' ? settings.color : Color.random();
       this.material = new Three.MeshPhongMaterial({
         ambient: color,
         color: color,
         specular: color,
         shading: Three.FlatShading
       });
+      this.material.wireframe = true;
 
       this.instance = new Three.Mesh(this.geometry, this.material);
       this.instance.position.x = settings.x;
@@ -53,9 +54,12 @@ define([
     },
 
     update: function() {
-      var pos = this.instance.position;
+      var instance = this.instance,
+          pos = instance.position;
 
       pos.add(this.vel.clone().multiplyScalar(Time.elapsed));
+      instance.rotation.y = Time.sinceStart * 1.5;
+      instance.rotation.x = Time.sinceStart * 1.5;
 
       if(!this.game.camera.isPointInFrustum(pos.x, pos.y)) {
         this.alive = false;
