@@ -19,7 +19,7 @@ define([
   Keyboard,
   Mouse
 ) {
-  
+
   var Ship = BaseObject.extend({
 
     // vars
@@ -126,7 +126,7 @@ define([
 
     loadCrosshair: function() {
       this.crossHair = new Three.Mesh(
-        new Three.CubeGeometry(0.8, 0.8, 0.8),
+        new Three.CubeGeometry(1.2, 1.2, 1.2),
         new Three.MeshPhongMaterial({
           map: Three.ImageUtils.loadTexture('res/mockups/crossHair.png'),
           transparent: true
@@ -139,28 +139,28 @@ define([
       this.supr();
 
       var instance = this.instance,
-          position = instance.position,
-          elapsed = Time.elapsed;
+        position = instance.position,
+        elapsed = Time.elapsed;
 
       var dir = new Three.Vector3(0, 0, 0);
 
-      if(Keyboard.actionDuration('up') > 0.0)
+      if (Keyboard.actionDuration('up') > 0.0)
         dir.y -= 1.0;
-      if(Keyboard.actionDuration('down') > 0.0)
+      if (Keyboard.actionDuration('down') > 0.0)
         dir.y += 1.0;
-      if(Keyboard.actionDuration('left') > 0.0)
+      if (Keyboard.actionDuration('left') > 0.0)
         dir.x -= 1.0;
-      if(Keyboard.actionDuration('right') > 0.0)
+      if (Keyboard.actionDuration('right') > 0.0)
         dir.x += 1.0;
 
       dir.normalize();
 
       this.previousVel.lerp(dir, this.move.lerp);
       window.DEBUG('prevVel', this.previousVel.x, this.previousVel.y);
-      
+
       position.add(this.previousVel.clone().multiplyScalar(elapsed * this.move.speed));
 
-
+      this.checkBounds();
 
       // mouse
       var mouseCoords = this.game.camera.screenToWorldPosition(Mouse.x, Mouse.y);
@@ -174,7 +174,7 @@ define([
       this.crossHair.position.y = mouseCoords[1];
 
       this.fireCounter -= elapsed;
-      if(this.fireCounter < 0.0) {
+      if (this.fireCounter < 0.0) {
         this.fireCounter += this.fireDelay;
         this.fireIndex = ++this.fireIndex % this.fires.length;
         this.fire.material = this.fires[this.fireIndex];
@@ -185,34 +185,49 @@ define([
       this.fire.position.x = position.x - Math.cos(angle) * (this.width - 0.25);
       this.fire.position.y = position.y - Math.sin(angle) * (this.width - 0.25);
 
-      if(this.shootCounter > 0.0)
+      if (this.shootCounter > 0.0)
         this.shootCounter -= elapsed;
 
-      if(Mouse.isButtonDown('left')) {
+      if (Mouse.isButtonDown('left')) {
         this.shoot();
         this.crossHair.rotation.z += elapsed * 10.0;
-        if(this.crossHair.rotation.z > Math.PI)
-          this.crossHair.rotation.z -= Math.PI;
+        if (this.crossHair.rotation.z > Math.PI * 2)
+          this.crossHair.rotation.z -= Math.PI * 2;
       } else {
-        if(this.crossHair.rotation.z > 0.0)
+        if (this.crossHair.rotation.z > 0.0)
           this.crossHair.rotation.z -= elapsed * 10.0;
         else
           this.crossHair.rotation.z = 0.0;
       }
     },
 
-    draw: function() {},
+    checkBounds: function() {
+      var bounds = this.game.camera.getFrustumBounds(),
+        position = this.instance.position;
 
+      if (position.x - this.width < bounds.x) {
+        position.x = bounds.x + this.width;
+      }
+      if (position.x + this.width > bounds.x + bounds.width) {
+        position.x = bounds.x + bounds.width - this.width;
+      }
+      if (position.y - this.height < bounds.y) {
+        position.y = bounds.y + this.height;
+      }
+      if (position.y + this.height > bounds.y + bounds.height) {
+        position.y = bounds.y + bounds.height - this.height;
+      }
+    },
 
 
     shoot: function() {
-      if(this.shootCounter > 0.0)
+      if (this.shootCounter > 0.0)
         return;
       this.shootCounter = this.shooting.delay;
 
       var instance = this.instance,
-          position = instance.position,
-          angle = instance.rotation.z;
+        position = instance.position,
+        angle = instance.rotation.z;
       var p = new Projectile(this.game, this, {
         x: position.x + (Math.cos(angle) * (this.width / 2)),
         y: position.y + (Math.sin(angle) * (this.width / 2)),

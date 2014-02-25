@@ -6,7 +6,7 @@ define([
   $,
   _,
   Controls
-  ) {
+) {
 
 
 
@@ -42,20 +42,20 @@ define([
      * function allows (re-)binding of action keys
      */
     setKeyBindings: function(bindings, arg2) {
-      var t, keys, actionbindings;
+      var tmp, keys, actionbindings;
 
-      if(typeof arg2 !== 'undefined') {
+      if (typeof arg2 !== 'undefined') {
         // if arg2 is supplied
         // bindings and arg2 must be strings
-        t = bindings;
+        tmp = bindings;
         bindings = {};
-        bindings[t] = arg2;
+        bindings[tmp] = arg2;
       }
 
       keys = _.invert(KEYCODES);
       actionbindings = this.actionbindings;
       _.each(bindings, function(value, action) {
-        if(!keys[value])
+        if (!keys[value])
           return;
         actionbindings[action] = value;
       }, this);
@@ -63,9 +63,13 @@ define([
       this.actionbindingsInvert = _.invert(this.actionbindings);
     },
 
+    /**
+     * [bindEvents description]
+     * @return {Object} [description]
+     */
     bindEvents: function() {
       this.$window = $(window);
-      
+
       _.bindAll(this,
         'keyup',
         'keydown'
@@ -80,28 +84,28 @@ define([
     // event listeners
     keydown: function(event) {
       var action, data,
-          keyCode = event.keyCode,
-          key = KEYCODES[keyCode],
-          t = performance.now();
+        keyCode = event.keyCode,
+        key = KEYCODES[keyCode],
+        t = performance.now();
 
       data = {
         startedAt: t
       };
 
       action = this.actionbindingsInvert[key];
-      if(action) {
+      if (action) {
         this.trigger(action + ':start', data);
       }
 
-      this.trigger('key:'+KEYCODES[keyCode]+':down', data);
+      this.trigger('key:' + KEYCODES[keyCode] + ':down', data);
       this.pressedDuration[key] = t;
     },
 
     keyup: function(event) {
       var action, startedAt, data,
-          keyCode = event.keyCode,
-          t = performance.now(),
-          key = KEYCODES[keyCode];
+        keyCode = event.keyCode,
+        t = performance.now(),
+        key = KEYCODES[keyCode];
 
       startedAt = this.pressedDuration[key];
 
@@ -111,11 +115,11 @@ define([
       };
 
       action = this.actionbindingsInvert[key];
-      if(action) {
+      if (action) {
         this.trigger(action + ':end', data);
       }
 
-      this.trigger('key:'+key+':up', data);
+      this.trigger('key:' + key + ':up', data);
       this.pressedDuration[key] = 0.0;
     },
 
@@ -125,7 +129,6 @@ define([
     }
 
   });
-
 
 
 
@@ -234,4 +237,3 @@ define([
 
   return new Keyboard();
 });
-

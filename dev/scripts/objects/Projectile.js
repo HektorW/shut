@@ -17,7 +17,7 @@ define([
   Color,
   Time
 ) {
-  
+
   var Projectile = BaseObject.extend({
 
     __init__: function(game, ship, settings) {
@@ -55,13 +55,13 @@ define([
 
     update: function() {
       var instance = this.instance,
-          pos = instance.position;
+        pos = instance.position;
 
       pos.add(this.vel.clone().multiplyScalar(Time.elapsed));
       instance.rotation.y = Time.sinceStart * 1.5;
       instance.rotation.x = Time.sinceStart * 1.5;
 
-      if(!this.game.camera.isPointInFrustum(pos.x, pos.y)) {
+      if (!this.game.camera.isPointInFrustum(pos.x, pos.y)) {
         this.alive = false;
       }
     },

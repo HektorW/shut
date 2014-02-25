@@ -29,7 +29,7 @@ define([
 
   Ship
 ) {
-  
+
   var Game = Classy.extend({
 
     // vars
@@ -48,7 +48,7 @@ define([
       // this.renderer.setClearColor(Color.darken(Color.navy, 0.3));
       this.renderer.setClearColor(Color.darken(Color.white));
 
-      this.$root = $('#root').append(this.renderer.domElement);      
+      this.$root = $('#root').append(this.renderer.domElement);
 
       // init controls
       Keyboard.init();
@@ -72,8 +72,8 @@ define([
     },
 
     initLight: function() {
-      var ambientLight = new Three.AmbientLight( Color.white );
-      this.scene.add( ambientLight );
+      var ambientLight = new Three.AmbientLight(Color.white);
+      this.scene.add(ambientLight);
     },
 
 
@@ -101,13 +101,13 @@ define([
 
     updateProjectiles: function() {
       var i, projectile,
-          projectiles = this.projectiles;
-      for(i = projectiles.length; i--; ) {
+        projectiles = this.projectiles;
+      for (i = projectiles.length; i--;) {
         projectile = projectiles[i];
 
         projectile.update();
 
-        if(!projectile.alive) {
+        if (!projectile.alive) {
           this.scene.remove(projectile.instance);
           projectiles.splice(i, 1);
         }
