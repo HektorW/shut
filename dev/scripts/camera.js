@@ -7,6 +7,8 @@ define([
 		__init__: function(game) {
 			this.game = game;
 
+
+
 			this.updateProjection();
 			this.camera.position.z = 40.0;
 		},
@@ -16,16 +18,16 @@ define([
 
 		updateProjection: function() {
 			var w = this.width = 30; // this.game.width / 100;
-			var h = this.height = window.innerHeight / window.innerWidth  * w; // this.game.height / 100;
+			var h = this.height = window.innerHeight / window.innerWidth * w; // this.game.height / 100;
 
 			var pos;
-			if(this.camera)
+			if (this.camera)
 				pos = this.camera.position;
 
 			this.camera = new Three.OrthographicCamera(w / -2, w / 2, h / -2, h / 2, 1, 100);
 			// this.camera = new Three.PerspectiveCamera(60, w / h, 1, 1000);
 
-			if(pos)
+			if (pos)
 				this.camera.position = pos;
 		},
 
@@ -54,6 +56,16 @@ define([
 			var cy = this.camera.position.y - h / 2;
 
 			return (posx > cx && posx < cx + w && posy > cy && posy < cy + h);
+		},
+
+
+		getFrustumBounds: function() {
+			return {
+				x: this.camera.position.x - this.width / 2,
+				y: this.camera.position.y - this.height / 2,
+				width: this.width,
+				height: this.height
+			};
 		}
 	});
 

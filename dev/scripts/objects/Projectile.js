@@ -17,7 +17,7 @@ define([
   Color,
   Time
 ) {
-  
+
   var Projectile = BaseObject.extend({
 
 
@@ -81,7 +81,6 @@ define([
     },
 
     update: function() {
-      
 
       for(var i = this.instances.length; i--; ) {
         var instance = this.instances[i],
