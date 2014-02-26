@@ -108,7 +108,7 @@ define([
         projectile.update();
 
         if(!projectile.alive) {
-          this.scene.remove(projectile.instance);
+          projectile.remove();
           projectiles.splice(i, 1);
         }
       }

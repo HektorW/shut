@@ -5,6 +5,8 @@ define([
 
   'objects/BaseObject',
   'objects/Projectile',
+  'objects/DoubleProjectile',
+  'objects/ExplosiveProjectile',
 
   'controls/keyboard',
   'controls/mouse'
@@ -15,6 +17,8 @@ define([
 
   BaseObject,
   Projectile,
+  DoubleProjectile,
+  ExplosiveProjectile,
 
   Keyboard,
   Mouse
@@ -213,7 +217,7 @@ define([
       var instance = this.instance,
           position = instance.position,
           angle = instance.rotation.z;
-      var p = new Projectile(this.game, this, {
+      var p = new DoubleProjectile(this.game, this, {
         x: position.x + (Math.cos(angle) * (this.width / 2)),
         y: position.y + (Math.sin(angle) * (this.width / 2)),
         dirX: Math.cos(angle),
