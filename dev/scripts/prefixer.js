@@ -4,7 +4,7 @@ define([], function() {
       _all_prefixed = false;
 
   function capitalize(str) {
-    return str[0] + str.substr(1);
+    return str[0].toUpperCase() + str.substr(1);
   }
 
   function prefix(obj, functionName, fallback) {
@@ -12,10 +12,9 @@ define([], function() {
 
     obj = obj || {};
 
-    if(obj[functionName]) {
-      // if it already exists we are cool
+    // if it already exists we are cool
+    if(obj[functionName])
       return;
-    }
 
     cap = capitalize(functionName);
 
@@ -45,6 +44,8 @@ define([], function() {
     });
 
     prefix(window.performance, 'now', Date.now);
+
+    prefix(window.navigator, 'getGamepads', function() {});
 
     _all_prefixed = true;
   }
