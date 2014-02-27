@@ -232,7 +232,7 @@ define([
       var instance = this.instance,
           position = instance.position,
           angle = instance.rotation.z;
-      var p = new DoubleProjectile(this.game, this, {
+      var p = new ExplosiveProjectile(this.game, this, {
         x: position.x + (Math.cos(angle) * (this.width / 2)),
         y: position.y + (Math.sin(angle) * (this.width / 2)),
         dirX: Math.cos(angle),
