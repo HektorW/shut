@@ -11,7 +11,7 @@ define([
   Color,
   Time
 ) {
-  
+
   var ExplosiveProjectile = Projectile.extend({
 
     __init__: function(game, ship, settings) {
@@ -19,21 +19,21 @@ define([
 
       this.explosionDelay = 0.50;
       this.explosionRadius = 0.1;
-      this.explosionDuration = 1.0;
-      this.explosionRadiusInc = 20.0;
+      this.explosionDuration = 0.8;
+      this.explosionRadiusInc = 30.0;
     },
 
     getMaterial: function() {
       this.projectileMaterial = new Three.MeshPhongMaterial({
         ambient: Color.green,
-        color: Color.green, 
-        specular: Color.green, 
+        color: Color.green,
+        specular: Color.green,
         shading: Three.FlatShading
       });
       this.explosionMaterial = new Three.MeshPhongMaterial({
         ambient: Color.orange,
-        color: Color.orange, 
-        specular: Color.orange, 
+        color: Color.orange,
+        specular: Color.orange,
         shading: Three.FlatShading
       });
       this.explosionMaterial.wireframe = true;
@@ -42,23 +42,20 @@ define([
     },
 
     update: function() {
-      if(this.explosionDelay > 0.0) {
+      if (this.explosionDelay > 0.0) {
         this.explosionDelay -= Time.elapsed;
         this.supr();
 
-        if(this.explosionDelay < 0.0) {
-          this.instance.material = this.explosionMaterial;
-        }
       } else {
+        this.instance.material = this.explosionMaterial;
         this.explosionDuration -= Time.elapsed;
 
         this.explosionRadius += this.explosionRadiusInc * Time.elapsed;
-
-        // this.instance.geometry.size.set(this.explosionRadius, this.explosionRadius, this.explosionRadius);
         this.instance.scale.set(this.explosionRadius, this.explosionRadius, this.explosionRadius);
-        // this.instance.geometry.radius = this.explosionRadius;
+        this.instance.rotation.y = Time.sinceStart * 3.0;
+        this.instance.rotation.x = Time.sinceStart * 3.0;
 
-        if(this.explosionDuration < 0.0) {
+        if (this.explosionDuration < 0.0) {
           this.alive = false;
         }
       }

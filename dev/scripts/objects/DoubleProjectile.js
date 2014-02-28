@@ -11,7 +11,7 @@ define([
   Color,
   Time
 ) {
-  
+
   var DoubleProjectile = Projectile.extend({
 
     __init__: function(game, ship, settings) {
@@ -20,7 +20,7 @@ define([
     },
 
     initInstances: function() {
-      var cross = new Three.Vector3().copy(this.vel).normalize();;
+      var cross = new Three.Vector3().copy(this.vel).normalize();
       cross.cross(new Three.Vector3(0, 0, 1.0));
       cross.multiplyScalar(0.2);
 
