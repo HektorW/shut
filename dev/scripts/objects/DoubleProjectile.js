@@ -15,8 +15,8 @@ define([
   var DoubleProjectile = Projectile.extend({
 
     __init__: function(game, ship, settings) {
+      settings.color = Color.purple;
       this.supr(game, ship, settings);
-
     },
 
     initInstances: function() {

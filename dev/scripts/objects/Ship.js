@@ -55,8 +55,12 @@ define([
       };
       this.shootCounter = 0.0;
 
+      this.bindEvents();
+
       this.loadFire();
       this.loadCrosshair();
+
+      this.activeProjectile = Projectile;
 
       // three instance
       this.width = 1.0;
@@ -67,6 +71,18 @@ define([
       this.instance = new Three.Mesh(this.geometry, this.material);
       this.instance.position.z = 1.0;
       this.game.scene.add(this.instance);
+    },
+
+    bindEvents: function() {
+      Keyboard.on('key:1:down', function() {
+        this.activeProjectile = Projectile;
+      }, this);
+      Keyboard.on('key:2:down', function() {
+        this.activeProjectile = DoubleProjectile;
+      }, this);
+      Keyboard.on('key:3:down', function() {
+        this.activeProjectile = ExplosiveProjectile;
+      }, this);
     },
 
     loadMaterials: function() {
@@ -232,7 +248,7 @@ define([
       var instance = this.instance,
           position = instance.position,
           angle = instance.rotation.z;
-      var p = new ExplosiveProjectile(this.game, this, {
+      var p = new this.activeProjectile(this.game, this, {
         x: position.x + (Math.cos(angle) * (this.width / 2)),
         y: position.y + (Math.sin(angle) * (this.width / 2)),
         dirX: Math.cos(angle),
