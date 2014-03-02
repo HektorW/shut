@@ -160,7 +160,7 @@ define([
         new Three.CubeGeometry(0.7, 0.7, 0.7),
         new Three.MeshPhongMaterial({
           // map: Three.ImageUtils.loadTexture('res/mockups/crossHair.png'),
-          map: Three.ImageUtils.loadTexture('res/crosshair3.png'),
+          map: Three.ImageUtils.loadTexture('res/crosshair4.png'),
           transparent: true
         })
       );

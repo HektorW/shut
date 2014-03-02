@@ -1,8 +1,7 @@
 define([
 	'threejs',
-	'classy',
-	'util/color'
-], function(Three, Classy, Color) {
+	'classy'
+], function(Three, Classy) {
 
 
 	var BaseObject = Classy.extend({

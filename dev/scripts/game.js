@@ -12,7 +12,8 @@ define([
   'time',
   'util/Color',
 
-  'objects/Ship'
+  'objects/Ship',
+  'objects/StaticBox'
 ], function(
   $,
   Three,
@@ -27,7 +28,8 @@ define([
   Time,
   Color,
 
-  Ship
+  Ship,
+  StaticBox
 ) {
 
   var Game = Classy.extend({
@@ -38,6 +40,7 @@ define([
 
     ship: null,
     projectiles: [],
+    boxes: [],
 
     // methods
     __init__: function() {
@@ -69,6 +72,13 @@ define([
 
     initObjects: function() {
       this.ship = new Ship(this);
+
+      this.boxes.push(new StaticBox(this, {
+        width: 2.0,
+        height: 2.0,
+        x: 5.0,
+        y: 5.0
+      }));
     },
 
     initLight: function() {
@@ -94,6 +104,10 @@ define([
       // update controls last
       Keyboard.update();
       Mouse.update();
+
+      _.each(this.boxes, function(box) {
+        box.update();
+      });
 
       this.draw();
     },

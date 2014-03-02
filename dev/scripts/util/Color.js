@@ -10,6 +10,10 @@ define([], function() {
     };
   }
 
+  function decToHex(dec) {
+    return parseInt(dec, 10).toString(16);
+  }
+
   function fixZeros(hexstr, length) {
     while(hexstr.length < length)
       hexstr = '0'  + hexstr;
@@ -23,6 +27,22 @@ define([], function() {
     var i = parseInt(Number('0x'+hexstr) * amount, 10);
     i = Math.max(min, Math.min(i, max));
     return fixZeros(i.toString(16), l);
+  }
+
+  function lerpHexStr(a, b, l) {
+    return decToHex(lerpValue(value(a), value(b), l));
+  }
+
+  function lerpValue(a, b, l) {
+    l = Math.max(0, Math.min(l, 1));
+    return a * (1-l) + b * l;
+  }
+
+  function value() {
+    var res = '0x';
+    for(var i = 0; i < arguments.length; i++)
+      res += arguments[i];
+    return Number(res);
   }
 
   return {
@@ -47,23 +67,23 @@ define([], function() {
     f: rgbValues,
 
     darken: function(color, val) {
-        val = val || 0.9;
-        var rgb = rgbValues(color);
-        rgb.r = multiplyHexVal(rgb.r, val);
-        rgb.g = multiplyHexVal(rgb.g, val);
-        rgb.b = multiplyHexVal(rgb.b, val);
+      val = val || 0.9;
+      var rgb = rgbValues(color);
+      rgb.r = multiplyHexVal(rgb.r, val);
+      rgb.g = multiplyHexVal(rgb.g, val);
+      rgb.b = multiplyHexVal(rgb.b, val);
 
-        return Number('0x'+ rgb.r + rgb.g + rgb.b);
+      return value(rgb.r, rgb.g, rgb.b);
     },
 
     lighten: function(color, val) {
-        val = 1 + (val || 0.1);
-        var rgb = rgbValues(color);
-        rgb.r = multiplyHexVal(rgb.r, val);
-        rgb.g = multiplyHexVal(rgb.g, val);
-        rgb.b = multiplyHexVal(rgb.b, val);
+      val = 1 + (val || 0.1);
+      var rgb = rgbValues(color);
+      rgb.r = multiplyHexVal(rgb.r, val);
+      rgb.g = multiplyHexVal(rgb.g, val);
+      rgb.b = multiplyHexVal(rgb.b, val);
 
-        return Number('0x'+ rgb.r + rgb.g + rgb.b);
+      return value(rgb.r, rgb.g, rgb.b);
     },
 
     random: function() {
@@ -73,11 +93,17 @@ define([], function() {
         if(!this.hasOwnProperty(c))
           continue;
 
-          if(typeof this[c] === 'number')
-            a.push(this[c]);
+        if(typeof this[c] === 'number')
+          a.push(this[c]);
       }
 
       return a[parseInt(Math.random() * a.length, 10)];
+    },
+
+    lerp: function(color_a, color_b, l ) {
+      var a = rgbValues(color_a);
+      var b = rgbValues(color_b);
+      return value(lerpHexStr(a.r, b.r, l), lerpHexStr(a.g, b.g, l), lerpHexStr(a.b, b.b, l));
     }
   };
 });
