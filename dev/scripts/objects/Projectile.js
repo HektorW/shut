@@ -110,6 +110,8 @@ define([
   });
   _.extend(Projectile.prototype, Events);
 
+  Projectile.delay = 0.10;
+
 
   return Projectile;
 });

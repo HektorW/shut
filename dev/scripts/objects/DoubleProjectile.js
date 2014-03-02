@@ -42,6 +42,8 @@ define([
   });
 
 
+  DoubleProjectile.delay = 0.2;
+
 
   return DoubleProjectile;
 });

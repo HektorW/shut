@@ -113,7 +113,7 @@ define([
         })
       };
 
-      this.material = this.materials.ship1;
+      this.material = this.materials.default;
     },
 
 
@@ -243,7 +243,8 @@ define([
     shoot: function() {
       if (this.shootCounter > 0.0)
         return;
-      this.shootCounter = this.shooting.delay;
+      // this.shootCounter = this.shooting.delay;
+      this.shootCounter = this.activeProjectile.delay;
 
       var instance = this.instance,
           position = instance.position,

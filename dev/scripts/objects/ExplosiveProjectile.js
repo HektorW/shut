@@ -64,6 +64,8 @@ define([
 
   });
 
+  ExplosiveProjectile.delay = 0.40;
+
 
 
   return ExplosiveProjectile;
