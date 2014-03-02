@@ -40,7 +40,6 @@ define([], function() {
     maroon: 0x85144b,
     fuchsia: 0xf012be,
     purple: 0xb10dc9,
-    white: 0xffffff,
     silver: 0xdddddd,
     gray: 0xaaaaaa,
     black: 0x111111,

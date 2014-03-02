@@ -51,7 +51,7 @@ define([
         delay: 0.15,
         speed: 20.0,
         size: 0.15,
-        color: 'black'
+        color: 'yellow'
       };
       this.shootCounter = 0.0;
 
@@ -73,6 +73,8 @@ define([
       this.game.scene.add(this.instance);
     },
 
+
+
     bindEvents: function() {
       Keyboard.on('key:1:down', function() {
         this.activeProjectile = Projectile;
@@ -84,6 +86,9 @@ define([
         this.activeProjectile = ExplosiveProjectile;
       }, this);
     },
+
+
+
 
     loadMaterials: function() {
       this.materials = {
@@ -110,10 +115,16 @@ define([
         default: new Three.MeshPhongMaterial({
           map: Three.ImageUtils.loadTexture('res/ship.png'),
           transparent: true
+        }),
+        orange: new Three.MeshPhongMaterial({
+          color: Color.orange,
+          ambient: Color.orange,
+          specular: Color.orange,
+          shading: Three.FlatShading
         })
       };
 
-      this.material = this.materials.default;
+      this.material = this.materials.orange;
     },
 
 
@@ -146,9 +157,10 @@ define([
 
     loadCrosshair: function() {
       this.crossHair = new Three.Mesh(
-        new Three.CubeGeometry(1.2, 1.2, 1.2),
+        new Three.CubeGeometry(0.7, 0.7, 0.7),
         new Three.MeshPhongMaterial({
-          map: Three.ImageUtils.loadTexture('res/mockups/crossHair.png'),
+          // map: Three.ImageUtils.loadTexture('res/mockups/crossHair.png'),
+          map: Three.ImageUtils.loadTexture('res/crosshair3.png'),
           transparent: true
         })
       );
@@ -158,6 +170,19 @@ define([
     update: function() {
       this.supr();
 
+      this.updateMovement();
+      
+      this.checkBounds();
+
+      this.updateControls();
+
+      this.updateFireAnimation();
+
+      this.updateShooting();
+      
+    },
+
+    updateMovement: function() {
       var instance = this.instance,
         position = instance.position,
         elapsed = Time.elapsed;
@@ -176,22 +201,32 @@ define([
       dir.normalize();
 
       this.previousVel.lerp(dir, this.move.lerp);
-      window.DEBUG('prevVel', this.previousVel.x, this.previousVel.y);
 
       position.add(this.previousVel.clone().multiplyScalar(elapsed * this.move.speed));
 
-      this.checkBounds();
+      // flag if user is moving
+      this.moving = dir.length() > 0.0;
+    },
+
+    updateControls: function() {
+      var position = this.instance.position;
 
       // mouse
       var mouseCoords = this.game.camera.screenToWorldPosition(Mouse.x, Mouse.y);
       var v = new Three.Vector2(mouseCoords[0] - position.x, mouseCoords[1] - position.y);
       v.normalize();
-      var angle = Math.atan2(v.y, v.x);
+      var angle = this.angle = Math.atan2(v.y, v.x);
 
-      instance.rotation.z = angle;
+      this.instance.rotation.z = angle;
 
       this.crossHair.position.x = mouseCoords[0];
       this.crossHair.position.y = mouseCoords[1];
+    },
+
+    updateFireAnimation: function() {
+      var elapsed = Time.elapsed,
+          angle = this.angle,
+          position = this.instance.position;
 
       this.fireCounter -= elapsed;
       if (this.fireCounter < 0.0) {
@@ -200,24 +235,21 @@ define([
         this.fire.material = this.fires[this.fireIndex];
       }
 
-      this.fire.visible = dir.length() > 0.0;
+      this.fire.visible = this.moving && false;
       this.fire.rotation.z = angle;
       this.fire.position.x = position.x - Math.cos(angle) * (this.width - 0.25);
       this.fire.position.y = position.y - Math.sin(angle) * (this.width - 0.25);
+    },
+
+
+    updateShooting: function() {
+      var elapsed = Time.elapsed;
 
       if (this.shootCounter > 0.0)
         this.shootCounter -= elapsed;
 
       if (Mouse.isButtonDown('left')) {
         this.shoot();
-        this.crossHair.rotation.z += elapsed * 10.0;
-        if (this.crossHair.rotation.z > Math.PI * 2)
-          this.crossHair.rotation.z -= Math.PI * 2;
-      } else {
-        if (this.crossHair.rotation.z > 0.0)
-          this.crossHair.rotation.z -= elapsed * 10.0;
-        else
-          this.crossHair.rotation.z = 0.0;
       }
     },
 
