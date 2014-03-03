@@ -28,7 +28,9 @@ define([
       this.supr();
     },
 
-    init: function() {
+    init: function(game) {
+      this.supr(game);
+
       this.bindEvents();
       this.setKeyBindings({
         'up': 'w',

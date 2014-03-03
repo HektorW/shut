@@ -6,7 +6,7 @@ define([
 
 	var BaseObject = Classy.extend({
 		// Vars
-		_active: false,
+		_active: null,
 
 		// Methods
 		__init__: function(game) {
@@ -22,13 +22,24 @@ define([
 			this._active = false;
 		},
 
-		update: function() {
-		},
+		update: function() {},
 
 		draw: function() {
 			// calculate some world matrix
 			// and update animations
+		},
+
+
+		// retuns an object with our collisionbounds
+		getCollisionBounds: function() {
+			return {};
+		},
+
+
+		onHit: function( /*other*/ ) {
+			// called when colliding with other object
 		}
+
 	});
 
 	return BaseObject;

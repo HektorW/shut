@@ -6,8 +6,8 @@ define([
   _,
   Classy,
   Events
-  ) {
-  
+) {
+
   var Controls = Classy.extend({
 
     pressedDuration: {},
@@ -15,7 +15,9 @@ define([
 
     __init__: function() {},
 
-    init: function() {},
+    init: function(game) {
+      this.game = game;
+    },
 
     update: function() {
 
@@ -48,6 +50,6 @@ define([
   });
   _.extend(Controls.prototype, Events);
 
-  return Controls;  
+  return Controls;
 
 });

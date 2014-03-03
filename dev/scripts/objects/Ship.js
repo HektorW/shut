@@ -26,8 +26,6 @@ define([
 
   var Ship = BaseObject.extend({
 
-    // vars
-
 
     // methods
     __init__: function(game) {
@@ -58,7 +56,6 @@ define([
       this.bindEvents();
 
       this.loadFire();
-      this.loadCrosshair();
 
       this.activeProjectile = Projectile;
 
@@ -86,7 +83,6 @@ define([
         this.activeProjectile = ExplosiveProjectile;
       }, this);
     },
-
 
 
 
@@ -155,23 +151,27 @@ define([
     },
 
 
-    loadCrosshair: function() {
-      this.crossHair = new Three.Mesh(
-        new Three.CubeGeometry(0.7, 0.7, 0.7),
-        new Three.MeshPhongMaterial({
-          // map: Three.ImageUtils.loadTexture('res/mockups/crossHair.png'),
-          map: Three.ImageUtils.loadTexture('res/crosshair4.png'),
-          transparent: true
-        })
-      );
-      this.game.scene.add(this.crossHair);
-    },
-
     update: function() {
       this.supr();
 
       this.updateMovement();
-      
+
+      var matrix = new Three.Matrix4();
+
+      matrix.makeRotationX(Time.sinceStart);
+
+      this.instance.matrix = matrix;
+
+      // this.instance.rotateX(Time.elapsed * 1);
+      // this.instance.rotateZ(Time.elapsed * 1);
+
+      // var rot = new Three.Vector3(1, 0, 0).applyQuaternion(this.instance.quaternion);
+      // rot.cross(new Three.Vector3(0, 1, 0));
+
+      // window.DEBUG('rotation', rot.x, rot.y, rot.z);
+
+      // this.instance.rotateOnAxis(rot, Time.elapsed * 1);
+
       this.checkBounds();
 
       this.updateControls();
@@ -179,7 +179,8 @@ define([
       this.updateFireAnimation();
 
       this.updateShooting();
-      
+
+
     },
 
     updateMovement: function() {
@@ -217,16 +218,14 @@ define([
       v.normalize();
       var angle = this.angle = Math.atan2(v.y, v.x);
 
-      this.instance.rotation.z = angle;
-
-      this.crossHair.position.x = mouseCoords[0];
-      this.crossHair.position.y = mouseCoords[1];
+      // this.instance.rotation.z = angle;
+      // this.instance.rotateZ(angle);
     },
 
     updateFireAnimation: function() {
       var elapsed = Time.elapsed,
-          angle = this.angle,
-          position = this.instance.position;
+        angle = this.angle,
+        position = this.instance.position;
 
       this.fireCounter -= elapsed;
       if (this.fireCounter < 0.0) {
@@ -279,8 +278,8 @@ define([
       this.shootCounter = this.activeProjectile.delay;
 
       var instance = this.instance,
-          position = instance.position,
-          angle = instance.rotation.z;
+        position = instance.position,
+        angle = instance.rotation.z;
       var p = new this.activeProjectile(this.game, this, {
         x: position.x + (Math.cos(angle) * (this.width / 2)),
         y: position.y + (Math.sin(angle) * (this.width / 2)),

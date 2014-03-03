@@ -63,8 +63,8 @@ define([
     },
 
     initInstances: function() {
-      
-      
+
+
 
       this.instance = new Three.Mesh(this.getGeometry(), this.getMaterial());
 
@@ -82,27 +82,43 @@ define([
 
     update: function() {
 
-      for(var i = this.instances.length; i--; ) {
+      for (var i = this.instances.length; i--;) {
         var instance = this.instances[i],
-            pos = instance.position;
+          pos = instance.position;
 
         pos.add(this.vel.clone().multiplyScalar(Time.elapsed));
         instance.rotation.y = Time.sinceStart * 1.5;
         instance.rotation.x = Time.sinceStart * 1.5;
 
-        if(!this.game.camera.isPointInFrustum(pos.x, pos.y)) {
+        if (!this.game.camera.isPointInFrustum(pos.x, pos.y)) {
           this.alive = false;
         }
       }
 
-      
+
     },
 
     draw: function() {},
 
 
+    getCollisionBounds: function() {
+      return {
+        type: 'rectangle',
+        x: this.instance.position.x,
+        y: this.instance.position.y,
+        width: this.size,
+        height: this.size
+      };
+    },
+
+
+    onHit: function( /*other*/ ) {
+      this.alive = false;
+    },
+
+
     remove: function() {
-      for(var i = this.instances.length; i--; ) {
+      for (var i = this.instances.length; i--;) {
         this.game.scene.remove(this.instances[i]);
       }
     },

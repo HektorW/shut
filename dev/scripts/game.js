@@ -12,6 +12,8 @@ define([
   'time',
   'util/Color',
 
+  'collisions',
+
   'objects/Ship',
   'objects/StaticBox'
 ], function(
@@ -28,6 +30,8 @@ define([
   Time,
   Color,
 
+  Collision,
+
   Ship,
   StaticBox
 ) {
@@ -39,8 +43,9 @@ define([
     height: null,
 
     ship: null,
-    projectiles: [],
-    boxes: [],
+    projectiles: null,
+    boxes: null,
+
 
     // methods
     __init__: function() {
@@ -54,8 +59,11 @@ define([
       this.$root = $('#root').append(this.renderer.domElement);
 
       // init controls
-      Keyboard.init();
-      Mouse.init();
+      Keyboard.init(this);
+      Mouse.init(this);
+
+      this.projectiles = [];
+      this.boxes = [];
 
       // objects
       this.initObjects();
@@ -84,6 +92,10 @@ define([
     initLight: function() {
       var ambientLight = new Three.AmbientLight(Color.white);
       this.scene.add(ambientLight);
+
+      var pointLight = new Three.PointLight(Color.white);
+      pointLight.position.z = -20.0;
+      this.scene.add(pointLight);
     },
 
 
@@ -98,7 +110,6 @@ define([
 
       this.updateProjectiles();
 
-      window.DEBUG('projectiles', this.projectiles.length);
       window.DEBUG('objects', this.scene.children.length);
 
       // update controls last
@@ -121,9 +132,24 @@ define([
 
         projectile.update();
 
-        if(!projectile.alive) {
+        this.checkProjectileCollisions(projectile);
+
+        if (!projectile.alive) {
           projectile.remove();
           projectiles.splice(i, 1);
+        }
+      }
+    },
+
+    checkProjectileCollisions: function(projectile) {
+      var p_bounds = projectile.getCollisionBounds();
+      for (var i = this.boxes.length; i--;) {
+        var box = this.boxes[i];
+        var b_bounds = box.getCollisionBounds();
+
+        if (Collision.collision(p_bounds, b_bounds)) {
+          projectile.onHit(box);
+          box.onHit(projectile);
         }
       }
     },

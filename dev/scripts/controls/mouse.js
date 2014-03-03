@@ -9,7 +9,7 @@ define([
     '0': 'left',
     '1': 'middle',
     '2': 'right'
-  }
+  };
 
   var Mouse = Controls.extend({
 
@@ -27,14 +27,28 @@ define([
       this.supr();
     },
 
-    init: function () {
+    init: function(game) {
+      this.supr(game);
+      this.loadCursor();
       this.bindEvents();
+    },
+
+    loadCursor: function() {
+      this.cursor = new Three.Mesh(
+        new Three.CubeGeometry(0.7, 0.7, 0.7),
+        new Three.MeshPhongMaterial({
+          // map: Three.ImageUtils.loadTexture('res/mockups/crossHair.png'),
+          map: Three.ImageUtils.loadTexture('res/crosshair4.png'),
+          transparent: true
+        })
+      );
+      this.game.scene.add(this.cursor);
     },
 
     bindEvents: function() {
       this.$window = $(window);
 
-      _.bindAll(this, 
+      _.bindAll(this,
         'mouseup',
         'mousedown',
         'mousemove',
@@ -94,7 +108,7 @@ define([
       event.preventDefault();
     },
 
-    
+
     triggerDirection: function(mouseX, mouseY) {
       var ox = this._baseObject.instance.position.x;
       var oy = this._baseObject.instance.position.y;
@@ -115,6 +129,18 @@ define([
         dirY: v.y,
         angle: angle
       });
+    },
+
+
+    update: function() {
+      this.supr();
+
+
+      var w_coords = this.game.camera.screenToWorldPosition(this.x, this.y);
+
+
+      this.cursor.position.x = w_coords[0];
+      this.cursor.position.y = w_coords[1];
     }
 
   });

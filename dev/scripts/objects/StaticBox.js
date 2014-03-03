@@ -11,7 +11,7 @@ define([
 
   BaseObject
 ) {
-  
+
   var StaticBox = BaseObject.extend({
 
     __init__: function(game, settings) {
@@ -51,8 +51,18 @@ define([
       this.material.specular.setHex(color);
     },
 
+    getCollisionBounds: function() {
+      return {
+        type: 'rectangle',
+        x: this.instance.position.x,
+        y: this.instance.position.y,
+        width: this.width,
+        height: this.height
+      };
+    }
+
 
   });
-  
+
   return StaticBox;
 });
