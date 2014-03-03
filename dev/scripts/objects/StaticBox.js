@@ -42,7 +42,7 @@ define([
 
     update: function() {
 
-      this.counter += Time.elapsed * 0.1;
+      // this.counter += Time.elapsed * 0.1;
 
       var color = Color.lerp(Color.green, Color.red, this.counter);
 
@@ -56,8 +56,8 @@ define([
         type: 'rectangle',
         x: this.instance.position.x,
         y: this.instance.position.y,
-        width: this.width,
-        height: this.height
+        width: this.width * 2,
+        height: this.height * 2
       };
     }
 

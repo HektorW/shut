@@ -54,7 +54,6 @@ define([
       this.shootCounter = 0.0;
 
       this.bindEvents();
-
       this.loadFire();
 
       this.activeProjectile = Projectile;
@@ -156,19 +155,25 @@ define([
 
       this.updateMovement();
 
-      var matrix = new Three.Matrix4();
+      this.instance.matrixAutoUpdate = false;
 
-      matrix.makeRotationX(Time.sinceStart);
+      var m = new Three.Matrix4();
 
-      this.instance.matrix = matrix;
+      m.makeRotationZ(Time.sinceStart);
 
-      // this.instance.rotateX(Time.elapsed * 1);
+
+
       // this.instance.rotateZ(Time.elapsed * 1);
-
-      // var rot = new Three.Vector3(1, 0, 0).applyQuaternion(this.instance.quaternion);
+      // this.instance.rotateX(Time.elapsed * 1);
+      
+      var rot = new Three.Vector3(1, 0, 0).applyMatrix4(m);
+      
+      this.instance.rotateOnAxis(rot, Time.sinceStart);
+      this.instance.matrixWorld = m;
+      this.instance.updateMatrixWorld();
       // rot.cross(new Three.Vector3(0, 1, 0));
 
-      // window.DEBUG('rotation', rot.x, rot.y, rot.z);
+      window.DEBUG('rotation', rot.x, rot.y, rot.z);
 
       // this.instance.rotateOnAxis(rot, Time.elapsed * 1);
 
