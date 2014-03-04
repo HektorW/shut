@@ -154,33 +154,34 @@ define([
       this.supr();
 
       this.updateMovement();
+      this.updateControls();
 
       this.instance.matrixAutoUpdate = false;
 
+
+      var mz = new Three.Matrix4();
+      mz.makeRotationZ(this.angle);
+      var mx = new Three.Matrix4();
+      mx.makeRotationX(Time.sinceStart * 4);
+
+      var mt = new Three.Matrix4();
+      mt.makeTranslation(this.instance.position.x, this.instance.position.y, 0);
+
+
       var m = new Three.Matrix4();
+      // m.multiplyMatrices(mz, mx);
+      m.multiply(mt);
+      m.multiply(mz);
+      m.multiply(mx);
 
-      m.makeRotationZ(Time.sinceStart);
 
-
-
-      // this.instance.rotateZ(Time.elapsed * 1);
-      // this.instance.rotateX(Time.elapsed * 1);
-      
-      var rot = new Three.Vector3(1, 0, 0).applyMatrix4(m);
-      
-      this.instance.rotateOnAxis(rot, Time.sinceStart);
       this.instance.matrixWorld = m;
       this.instance.updateMatrixWorld();
-      // rot.cross(new Three.Vector3(0, 1, 0));
 
-      window.DEBUG('rotation', rot.x, rot.y, rot.z);
 
-      // this.instance.rotateOnAxis(rot, Time.elapsed * 1);
+
 
       this.checkBounds();
-
-      this.updateControls();
-
       this.updateFireAnimation();
 
       this.updateShooting();
@@ -222,6 +223,8 @@ define([
       var v = new Three.Vector2(mouseCoords[0] - position.x, mouseCoords[1] - position.y);
       v.normalize();
       var angle = this.angle = Math.atan2(v.y, v.x);
+
+      this.angle = angle;
 
       // this.instance.rotation.z = angle;
       // this.instance.rotateZ(angle);
@@ -284,7 +287,7 @@ define([
 
       var instance = this.instance,
         position = instance.position,
-        angle = instance.rotation.z;
+        angle = this.angle; //instance.rotation.z;
       var p = new this.activeProjectile(this.game, this, {
         x: position.x + (Math.cos(angle) * (this.width / 2)),
         y: position.y + (Math.sin(angle) * (this.width / 2)),

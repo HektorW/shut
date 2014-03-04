@@ -102,12 +102,15 @@ define([
 
 
     getCollisionBounds: function() {
+      var s = this.size;
+      var hs = s / 2;
+
       return {
         type: 'rectangle',
-        x: this.instance.position.x,
-        y: this.instance.position.y,
-        width: this.size,
-        height: this.size
+        x: this.instance.position.x - s / 2,
+        y: this.instance.position.y - s / 2,
+        width: s,
+        height: s
       };
     },
 

@@ -52,12 +52,15 @@ define([
     },
 
     getCollisionBounds: function() {
+      var w = this.width;
+      var h = this.height;
+
       return {
         type: 'rectangle',
-        x: this.instance.position.x,
-        y: this.instance.position.y,
-        width: this.width * 2,
-        height: this.height * 2
+        x: this.instance.position.x - w / 2,
+        y: this.instance.position.y - h / 2,
+        width: w,
+        height: h
       };
     }
 
