@@ -31,9 +31,9 @@ define([
         shading: Three.FlatShading
       });
       this.explosionMaterial = new Three.MeshPhongMaterial({
-        ambient: Color.orange,
-        color: Color.orange,
-        specular: Color.orange,
+        ambient: Color.red,
+        color: Color.red,
+        specular: Color.red,
         shading: Three.FlatShading
       });
       this.explosionMaterial.wireframe = true;

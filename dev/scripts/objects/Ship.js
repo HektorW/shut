@@ -77,7 +77,7 @@ define([
       this.targetColor = this.color;
 
       this.animationCount = 0.0;
-      this.animationCountDelay = 1.0;
+      this.animationCountDelay = 0.5;
     },
 
 
@@ -196,13 +196,22 @@ define([
 
       if (this.animationCount > 0.0) {
         this.animationCount -= Time.elapsed;
-        if (this.animationCount < 0.0) {
+
+        var color, delta;
+
+        if (this.animationCount <= 0.0) {
           this.animationCount = 0.0;
           this.color = this.targetColor;
+          color = Color[this.color];
+          delta = 1;
+        } else {
+          delta = 1 - this.animationCount / this.animationCountDelay;
+          color = Color.lerp(Color[this.color], Color[this.targetColor], delta);
         }
 
-        var delta = 1 - this.animationCount / this.animationCountDelay;
-        var color = Color.lerp(Color[this.color], Color[this.targetColor], delta);
+
+        window.DEBUG('color', Color.toHexStr(color));
+
         this.material.color.setHex(color);
         this.material.ambient.setHex(color);
         this.material.specular.setHex(color);

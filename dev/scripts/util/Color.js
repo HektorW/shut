@@ -30,11 +30,10 @@ define([], function() {
   }
 
   function lerpHexStr(a, b, l) {
-    return decToHex(lerpValue(value(a), value(b), l));
+    return fixZeros(decToHex(lerpValue(value(a), value(b), l)), Math.max(a.length, b.length));
   }
 
   function lerpValue(a, b, l) {
-    l = Math.max(0, Math.min(l, 1));
     return a * (1-l) + b * l;
   }
 
@@ -101,9 +100,14 @@ define([], function() {
     },
 
     lerp: function(color_a, color_b, l ) {
+      l = Math.max(0, Math.min(l, 1));
       var a = rgbValues(color_a);
       var b = rgbValues(color_b);
       return value(lerpHexStr(a.r, b.r, l), lerpHexStr(a.g, b.g, l), lerpHexStr(a.b, b.b, l));
+    },
+
+    toHexStr: function(dec) {
+        return '0x' + decToHex(dec);
     }
   };
 });
