@@ -62,6 +62,10 @@ define([
 
     },
 
+    onHit: function() {
+      this.explosionDelay = -1;
+    }
+
   });
 
   ExplosiveProjectile.delay = 0.40;
