@@ -67,6 +67,17 @@ define([
       this.instance = new Three.Mesh(this.geometry, this.material);
       this.instance.position.z = 1.0;
       this.game.scene.add(this.instance);
+
+
+      this.xRotationTarget = 0.0;
+      this.xRotation = 0.0;
+      this.xRotationSpeed = 4.0;
+
+      this.color = this.shooting.color;
+      this.targetColor = this.color;
+
+      this.animationCount = 0.0;
+      this.animationCountDelay = 1.0;
     },
 
 
@@ -74,12 +85,21 @@ define([
     bindEvents: function() {
       Keyboard.on('key:1:down', function() {
         this.activeProjectile = Projectile;
+        this.xRotationTarget += Math.PI / 2;
+        this.targetColor = 'yellow';
+        this.animationCount = this.animationCountDelay;
       }, this);
       Keyboard.on('key:2:down', function() {
         this.activeProjectile = DoubleProjectile;
+        this.xRotationTarget += Math.PI / 2;
+        this.targetColor = 'purple';
+        this.animationCount = this.animationCountDelay;
       }, this);
       Keyboard.on('key:3:down', function() {
         this.activeProjectile = ExplosiveProjectile;
+        this.xRotationTarget += Math.PI / 2;
+        this.targetColor = 'green';
+        this.animationCount = this.animationCountDelay;
       }, this);
     },
 
@@ -162,7 +182,33 @@ define([
       var mz = new Three.Matrix4();
       mz.makeRotationZ(this.angle);
       var mx = new Three.Matrix4();
-      mx.makeRotationX(Time.sinceStart * 4);
+
+      if (this.xRotation < this.xRotationTarget) {
+        this.xRotation += Time.elapsed * this.xRotationSpeed;
+        if (this.xRotation > this.xRotationTarget) {
+          this.xRotation = this.xRotationTarget;
+        }
+
+
+        mx.makeRotationX(this.xRotation);
+      }
+
+
+      if (this.animationCount > 0.0) {
+        this.animationCount -= Time.elapsed;
+        if (this.animationCount < 0.0) {
+          this.animationCount = 0.0;
+          this.color = this.targetColor;
+        }
+
+        var delta = 1 - this.animationCount / this.animationCountDelay;
+        var color = Color.lerp(Color[this.color], Color[this.targetColor], delta);
+        this.material.color.setHex(color);
+        this.material.ambient.setHex(color);
+        this.material.specular.setHex(color);
+      }
+
+
 
       var mt = new Three.Matrix4();
       mt.makeTranslation(this.instance.position.x, this.instance.position.y, 0);
@@ -179,14 +225,10 @@ define([
       this.instance.updateMatrixWorld();
 
 
-
-
       this.checkBounds();
       this.updateFireAnimation();
 
       this.updateShooting();
-
-
     },
 
     updateMovement: function() {
