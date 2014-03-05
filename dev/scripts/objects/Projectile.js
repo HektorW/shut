@@ -26,6 +26,9 @@ define([
     __init__: function(game, ship, settings) {
       this.supr(game);
 
+      this.damage = 10.0;
+
+
       this.ship = ship;
 
       this.startX = this.x = settings.x;
@@ -107,8 +110,8 @@ define([
 
       return {
         type: 'rectangle',
-        x: this.instance.position.x - s / 2,
-        y: this.instance.position.y - s / 2,
+        x: this.instance.position.x - hs,
+        y: this.instance.position.y - hs,
         width: s,
         height: s
       };

@@ -17,6 +17,8 @@ define([
     __init__: function(game, settings) {
       this.supr(game);
 
+      this.life = this.maxLife = 400.0;
+
       this.width = settings.width || 1.0;
       this.height = settings.height || 1.0;
 
@@ -42,6 +44,7 @@ define([
 
     update: function() {
 
+      this.counter = 1 - this.life / this.maxLife;
       // this.counter += Time.elapsed * 0.1;
 
       var color = Color.lerp(Color.green, Color.red, this.counter);
@@ -62,6 +65,10 @@ define([
         width: w,
         height: h
       };
+    },
+
+    onHit: function(other) {
+      this.life = Math.max(this.life - other.damage, 0);
     }
 
 
