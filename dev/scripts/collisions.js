@@ -28,8 +28,9 @@ define([], function() {
 			if (fn) {
 				return fn(b, a);
 			}
-			throw 'Collision between bounding types ' + a.type + ' and ' + b.type + ' is not supported';
 
+
+			console.log('Collision between bounding types ' + a.type + ' and ' + b.type + ' is not supported');
 		},
 
 
