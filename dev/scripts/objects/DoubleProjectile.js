@@ -47,8 +47,8 @@ define([
         type: 'rectangle',
         x: x,
         y: y,
-        width: this.size * 2 + 0.4,
-        height: this.size
+        width: this.size,
+        height: this.size * 2 + 0.4
       };
     }
 

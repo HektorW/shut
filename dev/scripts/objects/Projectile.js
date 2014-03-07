@@ -61,7 +61,7 @@ define([
         specular: color,
         shading: Three.FlatShading
       });
-      this.material.wireframe = true;
+      // this.material.wireframe = true;
       return this.material;
     },
 

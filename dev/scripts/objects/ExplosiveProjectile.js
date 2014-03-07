@@ -52,8 +52,8 @@ define([
 
         this.explosionRadius += this.explosionRadiusInc * Time.elapsed;
         this.instance.scale.set(this.explosionRadius, this.explosionRadius, this.explosionRadius);
-        this.instance.rotation.y = Time.sinceStart * 3.0;
-        this.instance.rotation.x = Time.sinceStart * 3.0;
+        this.instance.rotation.z = Time.sinceStart * 3.0;
+        // this.instance.rotation.x = Time.sinceStart * 3.0;
 
         if (this.explosionDuration < 0.0) {
           this.alive = false;

@@ -71,7 +71,7 @@ define([
 
       this.xRotationTarget = 0.0;
       this.xRotation = 0.0;
-      this.xRotationSpeed = 4.0;
+      this.xRotationSpeed = 8.0;
 
       this.color = this.shooting.color;
       this.targetColor = this.color;
@@ -85,19 +85,19 @@ define([
     bindEvents: function() {
       Keyboard.on('key:1:down', function() {
         this.activeProjectile = Projectile;
-        this.xRotationTarget += Math.PI / 2;
+        this.xRotationTarget += Math.PI * 1;
         this.targetColor = 'yellow';
         this.animationCount = this.animationCountDelay;
       }, this);
       Keyboard.on('key:2:down', function() {
         this.activeProjectile = DoubleProjectile;
-        this.xRotationTarget += Math.PI / 2;
+        this.xRotationTarget += Math.PI * 1;
         this.targetColor = 'purple';
         this.animationCount = this.animationCountDelay;
       }, this);
       Keyboard.on('key:3:down', function() {
         this.activeProjectile = ExplosiveProjectile;
-        this.xRotationTarget += Math.PI / 2;
+        this.xRotationTarget += Math.PI * 1;
         this.targetColor = 'green';
         this.animationCount = this.animationCountDelay;
       }, this);
