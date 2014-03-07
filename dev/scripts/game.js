@@ -81,17 +81,22 @@ define([
     initObjects: function() {
       this.ship = new Ship(this);
 
-      this.boxes.push(new StaticBox(this, {
-        width: 2.0,
-        height: 2.0,
-        x: 5.0,
-        y: 5.0
-      }));
+      var numBoxes = 100;
+      for(var i = 0; i < numBoxes; i++) {
+        this.boxes.push(new StaticBox(this, {
+          size: 0.4,
+          x: parseInt(i / 10, 10),
+          y: (i % 10) - 5,
+          life: 20
+        }));
+        
+      }
+
     },
 
     initLight: function() {
-      var ambientLight = new Three.AmbientLight(Color.white);
-      this.scene.add(ambientLight);
+      // var ambientLight = new Three.AmbientLight(Color.white);
+      // this.scene.add(ambientLight);
 
       var pointLight = new Three.PointLight(Color.white);
       pointLight.position.z = -20.0;
@@ -116,9 +121,15 @@ define([
       Keyboard.update();
       Mouse.update();
 
-      _.each(this.boxes, function(box) {
+      this.boxes = _.filter(this.boxes, function(box) {
         box.update();
-      });
+
+        if(!box.alive) {
+          this.scene.remove(box.instance);
+        }
+
+        return box.alive;
+      }, this);
 
       this.draw();
     },

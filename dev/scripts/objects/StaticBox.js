@@ -17,10 +17,11 @@ define([
     __init__: function(game, settings) {
       this.supr(game);
 
-      this.life = this.maxLife = 400.0;
+      this.alive = true;
+      this.life = this.maxLife = settings.life || 100.0;
 
-      this.width = settings.width || 1.0;
-      this.height = settings.height || 1.0;
+      this.width = settings.width || settings.size || 1.0;
+      this.height = settings.height || settings.size || 1.0;
 
       this.x = settings.x || 0.0;
       this.y = settings.y || 0.0;
@@ -45,8 +46,6 @@ define([
     update: function() {
 
       this.counter = 1 - this.life / this.maxLife;
-      // this.counter += Time.elapsed * 0.1;
-
       var color = Color.lerp(Color.green, Color.red, this.counter);
 
       this.material.color.setHex(color);
@@ -69,6 +68,7 @@ define([
 
     onHit: function(other) {
       this.life = Math.max(this.life - other.damage, 0);
+      this.alive = this.life > 0.0;
     }
 
 
