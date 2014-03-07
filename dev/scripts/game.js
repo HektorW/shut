@@ -81,12 +81,12 @@ define([
     initObjects: function() {
       this.ship = new Ship(this);
 
-      var numBoxes = 100;
+      var numBoxes = 128;
       for(var i = 0; i < numBoxes; i++) {
         this.boxes.push(new StaticBox(this, {
           size: 0.4,
-          x: parseInt(i / 10, 10),
-          y: (i % 10) - 5,
+          x: 4 + parseInt(i / 16, 10),
+          y: (i % 16) - 7.5,
           life: 20
         }));
         
@@ -95,8 +95,8 @@ define([
     },
 
     initLight: function() {
-      // var ambientLight = new Three.AmbientLight(Color.white);
-      // this.scene.add(ambientLight);
+      var ambientLight = new Three.AmbientLight(Color.white);
+      this.scene.add(ambientLight);
 
       var pointLight = new Three.PointLight(Color.white);
       pointLight.position.z = -20.0;
