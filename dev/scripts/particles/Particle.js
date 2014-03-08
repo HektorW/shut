@@ -19,7 +19,7 @@ define([
       this.startY = ops.y || 0;
       this.angle = ops.angle || 0;
       this.speed = ops.speed || 1;
-      this.color = ops.color || Color.yellow || Color.random();
+      this.color = ops.color || Color.random();
       this.size = ops.size || 0.1;
 
       this.liveCounter = ops.duration || 1;

@@ -53,7 +53,8 @@ define([
         this.explosionRadius += this.explosionRadiusInc * Time.elapsed;
         this.instance.scale.set(this.explosionRadius, this.explosionRadius, this.explosionRadius);
         this.instance.rotation.z = Time.sinceStart * 3.0;
-        // this.instance.rotation.x = Time.sinceStart * 3.0;
+        this.instance.rotation.y = Time.sinceStart * 3.0;
+        this.instance.rotation.x = Time.sinceStart * 3.0;
 
         if (this.explosionDuration < 0.0) {
           this.alive = false;
@@ -64,6 +65,28 @@ define([
 
     onHit: function() {
       this.explosionDelay = -1;
+    },
+
+    getCollisionBounds: function() {
+      if(this.explosionDelay > 0.0)
+        return this.supr();
+
+      var s = this.explosionRadius / 3;
+      var hs = s / 2;
+
+      /*return {
+        type: 'rectangle',
+        x: this.instance.position.x - hs,
+        y: this.instance.position.y - hs,
+        width: s,
+        height: s
+      };*/
+      return {
+        type: 'circle',
+        x: this.instance.position.x,
+        y: this.instance.position.y,
+        radius: this.explosionRadius / 7
+      };
     }
 
   });
