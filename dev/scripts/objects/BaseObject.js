@@ -1,7 +1,10 @@
 define([
 	'threejs',
+	'underscore',
+
+	'events',
 	'classy'
-], function(Three, Classy) {
+], function(Three, _, Events, Classy) {
 
 
 	var BaseObject = Classy.extend({
@@ -41,6 +44,10 @@ define([
 		}
 
 	});
+
+	// Events
+	_.extend(BaseObject.prototype, Events);
+
 
 	return BaseObject;
 });

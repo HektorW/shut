@@ -68,7 +68,13 @@ define([
 
     onHit: function(other) {
       this.life = Math.max(this.life - other.damage, 0);
-      this.alive = this.life > 0.0;
+
+      if(this.life <= 0.0 && this.alive) {
+        this.alive = false;
+        this.trigger('dead', {
+          object: this
+        })
+      }
     }
 
 
