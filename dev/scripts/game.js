@@ -65,6 +65,7 @@ define([
       // init controls
       Keyboard.init(this);
       Mouse.init(this);
+      Gamepad.init(this);
 
       this.projectiles = [];
       this.boxes = [];
@@ -144,6 +145,7 @@ define([
       // update controls last
       Keyboard.update();
       Mouse.update();
+      Gamepad.update();
 
       this.boxes = _.filter(this.boxes, function(box) {
         box.update();

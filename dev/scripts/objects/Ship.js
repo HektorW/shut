@@ -9,7 +9,8 @@ define([
   'objects/ExplosiveProjectile',
 
   'controls/keyboard',
-  'controls/mouse'
+  'controls/mouse',
+  'controls/gamepad'
 ], function(
   Three,
   Color,
@@ -21,7 +22,8 @@ define([
   ExplosiveProjectile,
 
   Keyboard,
-  Mouse
+  Mouse,
+  Gamepad
 ) {
 
   var Ship = BaseObject.extend({
@@ -256,10 +258,16 @@ define([
       if (Keyboard.actionDuration('right') > 0.0)
         dir.x += 1.0;
 
+
+      dir.x = Gamepad.getLeftX() || 0.0;
+      dir.y = Gamepad.getLeftY() || 0.0;
+
+      window.DEBUG('dir', dir.x, dir.y);
+      window.DEBUG('dirlen', dir.length());
+
+
       dir.normalize();
-
       this.previousVel.lerp(dir, this.move.lerp);
-
       position.add(this.previousVel.clone().multiplyScalar(elapsed * this.move.speed));
 
       // flag if user is moving
@@ -306,7 +314,7 @@ define([
       if (this.shootCounter > 0.0)
         this.shootCounter -= elapsed;
 
-      if (Mouse.isButtonDown('left')) {
+      if (Mouse.isButtonDown('left') || Gamepad.isButtonDown('RIGHT_SHOULDER_BOTTOM') > 0.0) {
         this.shoot();
       }
     },
