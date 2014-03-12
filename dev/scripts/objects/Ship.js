@@ -259,8 +259,10 @@ define([
         dir.x += 1.0;
 
 
-      dir.x = Gamepad.getLeftX() || 0.0;
-      dir.y = Gamepad.getLeftY() || 0.0;
+      if (Gamepad.isConnected()) {
+        dir.x = Gamepad.getLeftX() || 0.0;
+        dir.y = Gamepad.getLeftY() || 0.0;
+      }
 
       window.DEBUG('dir', dir.x, dir.y);
       window.DEBUG('dirlen', dir.length());

@@ -1,7 +1,7 @@
 define([
   'controls/controls'
 ], function(Controls) {
-  
+
   var Gamepad = Controls.extend({
 
     // vars
@@ -14,6 +14,8 @@ define([
     // methods
     __init__: function(opt) {
       this.supr(opt);
+
+      this.connected = false;
     },
 
 
@@ -22,7 +24,9 @@ define([
 
       var pad = (window.navigator.getGamepads() || {})[0];
 
-      if(pad) {
+      if (pad) {
+        this.connected = true;
+
         var axes = pad.axes;
         this.triggerLeftStick(axes);
         this.triggerRightStick(axes);
@@ -33,10 +37,11 @@ define([
     triggerLeftStick: function(axes) {
       var x = axes[AXES.LEFT_ANALOGUE_HOR];
       var y = axes[AXES.LEFT_ANALOGUE_VERT];
-      var abs = Math.abs, epsilon = this.epsilon;
-      if(abs(x) < epsilon)
+      var abs = Math.abs,
+        epsilon = this.epsilon;
+      if (abs(x) < epsilon)
         x = 0.0;
-      if(abs(y) < epsilon)
+      if (abs(y) < epsilon)
         y = 0.0;
 
       // check change
@@ -52,10 +57,11 @@ define([
     triggerRightStick: function(axes) {
       var x = axes[AXES.RIGHT_ANALOGUE_HOR];
       var y = axes[AXES.RIGHT_ANALOGUE_VERT];
-      var abs = Math.abs, epsilon = this.epsilon;
-      if(abs(x) < epsilon)
+      var abs = Math.abs,
+        epsilon = this.epsilon;
+      if (abs(x) < epsilon)
         x = 0.0;
-      if(abs(y) < epsilon)
+      if (abs(y) < epsilon)
         y = 0.0;
       var angle = Math.atan2(y, x);
 
@@ -71,8 +77,9 @@ define([
     triggerButtons: function(buttons) {
       var t = performance.now();
 
-      var i = 0, b;
-      for(var btn in BUTTONS) {
+      var i = 0,
+        b;
+      for (var btn in BUTTONS) {
         b = BUTTONS[btn];
         this.pressedDuration[btn] = buttons[b] > 0.0 ? t : -1;
       }
@@ -84,6 +91,10 @@ define([
 
     getLeftY: function() {
       return this.leftY;
+    },
+
+    isConnected: function() {
+      return this.connected;
     }
 
   });

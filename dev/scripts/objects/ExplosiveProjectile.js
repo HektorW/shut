@@ -68,11 +68,11 @@ define([
     },
 
     getCollisionBounds: function() {
-      if(this.explosionDelay > 0.0)
+      if (this.explosionDelay > 0.0)
         return this.supr();
 
-      var s = this.explosionRadius / 3;
-      var hs = s / 2;
+      // var s = this.explosionRadius / 3;
+      // var hs = s / 2;
 
       /*return {
         type: 'rectangle',
@@ -91,7 +91,7 @@ define([
 
   });
 
-  ExplosiveProjectile.delay = 0.40;
+  ExplosiveProjectile.delay = 1.0;
 
 
 
