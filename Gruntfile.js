@@ -40,25 +40,8 @@ module.exports = function(grunt) {
         options: {
           base: '<%= app.dev %>'
         }
-      }/*,
-      test: {
-        options: {
-          base: [
-            'test',
-            '<%= app.dev %>'
-          ]
-        }
-      }*/
+      }
     },
-
-    // mocha: {
-    //   all: {
-    //     options: {
-    //       run: true,
-    //       urls: [ 'http://<%= connect.test.options.hostname %>:<%= connect.test.options.port %>/index.html' ]
-    //     }
-    //   }
-    // },
 
     less: {
       options: {
@@ -99,13 +82,48 @@ module.exports = function(grunt) {
           ]
         }]
       }
+    },
+
+    requirejs: {
+      dist: {
+        options: {
+          optimize: 'uglify',
+          name: 'main',
+          mainConfigFile: '<%= app.dev %>/scripts/main.js',
+          out: '<%= app.dist %>/scripts/main.js'
+        }
+      }
+    },
+
+    copy: {
+      distRes: {
+        files: [{
+          expand: true,
+          cwd: '<%= app.dev %>/res',
+          src: [ '**/*' ],
+          dest: '<%= app.dist %>/res'
+        }]
+      },
+
+      distHtml: {
+        files: [{
+          expand: true,
+          cwd: '<%= app.dev %>',
+          src: [ 'index.html' ],
+          dest: '<%= app.dist %>'
+        }]
+      },
+
+      distRequire: {
+        files: [{
+          expand: true,
+          cwd: '<%= app.dev %>/bower_components/requirejs',
+          src: [ 'require.js' ],
+          dest: '<%= app.dist %>/bower_components/requirejs'
+        }]
+      }
     }
   });
-
-  // grunt.registerTask('test', [
-  //   'connect:test',
-  //   'mocha'
-  // ]);
 
   grunt.registerTask('server', [
     'less:dev',
@@ -121,7 +139,10 @@ module.exports = function(grunt) {
   grunt.registerTask('dist', [
     'clean:dist',
     'less:dist',
-    'autoprefixer:dist'
+    'autoprefixer:dist',
+    'requirejs:dist',
+    'copy:distRes',
+    'copy:distHtml'
   ]);
 
   grunt.registerTask('default', [
