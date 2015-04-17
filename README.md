@@ -1,7 +1,6 @@
-# README
+# Shut
 
-Readmgeme
+Shooter game
 
-,
+Supported controls: Mouse + Keyboard, Gamepad
 
-thestartofagamwe
