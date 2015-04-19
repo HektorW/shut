@@ -74,7 +74,10 @@ require([
 
   new App().init();
 
-  window.DEBUG('Initialized');
+  // window.DEBUG('Initialized');
+  window.DEBUG('Move: [w, a, s, d]');
+  window.DEBUG('Shoot: [left mouse]');
+  window.DEBUG('Change: [1, 2, 3]');
 
 });
 

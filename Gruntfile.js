@@ -142,7 +142,8 @@ module.exports = function(grunt) {
     'autoprefixer:dist',
     'requirejs:dist',
     'copy:distRes',
-    'copy:distHtml'
+    'copy:distHtml',
+    'copy:distRequire'
   ]);
 
   grunt.registerTask('default', [
