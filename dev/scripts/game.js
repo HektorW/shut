@@ -140,7 +140,7 @@ define([
 
       this.updateProjectiles();
 
-      window.DEBUG('objects', this.scene.children.length);
+      // window.DEBUG('objects', this.scene.children.length);
 
       // update controls last
       Keyboard.update();

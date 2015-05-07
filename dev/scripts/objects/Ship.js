@@ -212,7 +212,7 @@ define([
         }
 
 
-        window.DEBUG('color', Color.toHexStr(color));
+        // window.DEBUG('color', Color.toHexStr(color));
 
         this.material.color.setHex(color);
         this.material.ambient.setHex(color);
@@ -264,8 +264,8 @@ define([
         dir.y = Gamepad.getLeftY() || 0.0;
       }
 
-      window.DEBUG('dir', dir.x, dir.y);
-      window.DEBUG('dirlen', dir.length());
+      // window.DEBUG('dir', dir.x, dir.y);
+      // window.DEBUG('dirlen', dir.length());
 
 
       dir.normalize();

@@ -14,7 +14,7 @@ require.config({
   },
 
   paths: {
-    jquery: '../bower_components/jquery/jquery',
+    // jquery: '../bower_components/jquery/jquery',
     underscore: '../bower_components/underscore/underscore',
     threejs: '../bower_components/threejs/build/three',
 
@@ -23,8 +23,8 @@ require.config({
     events: '../libs/events/dev/scripts/events',
     dom: '../libs/HeQuery/src/HeQuery',
 
-    text: '../bower_components/requirejs-text/text',
-    templates: '../templates'
+    // text: '../bower_components/requirejs-text/text',
+    // templates: '../templates'
   }
 });
 
@@ -74,7 +74,10 @@ require([
 
   new App().init();
 
-  window.DEBUG('Initialized');
+  // window.DEBUG('Initialized');
+  window.DEBUG('Move: [w, a, s, d]');
+  window.DEBUG('Shoot: [left mouse]');
+  window.DEBUG('Change: [1, 2, 3]');
 
 });
 
