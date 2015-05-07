@@ -28,7 +28,6 @@ define([
 
       this.damage = 10.0;
 
-
       this.ship = ship;
 
       this.startX = this.x = settings.x;
@@ -66,9 +65,6 @@ define([
     },
 
     initInstances: function() {
-
-
-
       this.instance = new Three.Mesh(this.getGeometry(), this.getMaterial());
 
       this.instance.position.x = this.startX;

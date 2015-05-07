@@ -197,6 +197,9 @@ define([
       var p_bounds = projectile.getCollisionBounds();
       for (var i = this.boxes.length; i--;) {
         var box = this.boxes[i];
+
+        if (!box.alive) continue;
+
         var b_bounds = box.getCollisionBounds();
 
         if (Collision.collision(p_bounds, b_bounds)) {
