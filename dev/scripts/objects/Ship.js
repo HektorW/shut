@@ -28,8 +28,8 @@ define([
 
 
     // methods
-    __init__: function(game) {
-      this.supr(game);
+    __init__: function(level) {
+      this.supr(level);
 
       window.ship = this;
 
@@ -66,7 +66,7 @@ define([
 
       this.instance = new Three.Mesh(this.geometry, this.material);
       this.instance.position.z = 1.0;
-      this.game.scene.add(this.instance);
+      this.level.scene.add(this.instance);
 
 
       this.xRotationTarget = 0.0;
@@ -162,7 +162,7 @@ define([
         new Three.CubeGeometry(0.5, 0.5, 0.5),
         this.fires[0]
       );
-      this.game.scene.add(this.fire);
+      this.level.scene.add(this.fire);
 
       this.fireIndex = 0;
       this.fireDelay = 0.1;
@@ -277,7 +277,7 @@ define([
       var position = this.instance.position;
 
       // mouse
-      var mouseCoords = this.game.camera.screenToWorldPosition(Mouse.x, Mouse.y);
+      var mouseCoords = this.level.camera.screenToWorldPosition(Mouse.x, Mouse.y);
       var v = new Three.Vector2(mouseCoords[0] - position.x, mouseCoords[1] - position.y);
       v.normalize();
       var angle = this.angle = Math.atan2(v.y, v.x);
@@ -319,7 +319,7 @@ define([
     },
 
     checkBounds: function() {
-      var bounds = this.game.camera.getFrustumBounds(),
+      var bounds = this.level.camera.getFrustumBounds(),
         position = this.instance.position;
 
       if (position.x - this.width < bounds.x) {
@@ -340,13 +340,13 @@ define([
     shoot: function() {
       if (this.shootCounter > 0.0)
         return;
-      // this.shootCounter = this.shooting.delay;
+
       this.shootCounter = this.activeProjectile.delay;
 
       var instance = this.instance,
         position = instance.position,
-        angle = this.angle; //instance.rotation.z;
-      var p = new this.activeProjectile(this.game, this, {
+        angle = this.angle;
+      var p = new this.activeProjectile(this.level, this, {
         x: position.x + (Math.cos(angle) * (this.width / 2)),
         y: position.y + (Math.sin(angle) * (this.width / 2)),
         dirX: Math.cos(angle),
@@ -356,7 +356,7 @@ define([
         color: this.shooting.color === 'random' ? Color.random() : Color[this.shooting.color]
       });
 
-      this.game.projectiles.push(p);
+      this.level.projectiles.push(p);
     }
 
   });

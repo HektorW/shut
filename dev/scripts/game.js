@@ -8,16 +8,10 @@ define([
   'controls/mouse',
   'controls/gamepad',
 
-  'camera',
   'time',
   'util/Color',
 
-  'collisions',
-
-  'particles/Particle',
-
-  'objects/Ship',
-  'objects/StaticBox'
+  'levels/StaticBoxLevel'
 ], function(
   $,
   Three,
@@ -28,16 +22,10 @@ define([
   Mouse,
   Gamepad,
 
-  Camera,
   Time,
   Color,
 
-  Collision,
-
-  Particle,
-
-  Ship,
-  StaticBox
+  StaticBoxLevel
 ) {
 
   var Game = Classy.extend({
@@ -46,21 +34,13 @@ define([
     width: null,
     height: null,
 
-    ship: null,
-    projectiles: null,
-    boxes: null,
-
     time: null,
 
 
     // methods
     __init__: function() {
-      this.scene = new Three.Scene();
-      this.camera = new Camera(this);
-
       this.renderer = new Three.WebGLRenderer();
       this.renderer.setClearColor(Color.darken(Color.navy, 0.3));
-      // this.renderer.setClearColor(Color.darken(Color.white));
 
       this.$root = $('#root').append(this.renderer.domElement);
 
@@ -71,13 +51,8 @@ define([
       Mouse.init(this);
       Gamepad.init(this);
 
-      this.projectiles = [];
-      this.boxes = [];
-      this.particles = [];
-
       // objects
-      this.initObjects();
-      this.initLight();
+      this.initLevel();
 
       _.bindAll(this, 'update', 'onresize');
       $(window).on('resize', this.onresize);
@@ -88,49 +63,23 @@ define([
     },
 
 
-    initObjects: function() {
-      this.ship = new Ship(this);
 
-      var numBoxes = 128;
-      for(var i = 0; i < numBoxes; i++) {
-        this.addStaticBox(4 + parseInt(i / 16, 10), (i % 16) - 7.5);
+    initLevel: function() {
+      this.setLevel(new StaticBoxLevel(this));
+    },
+
+
+    setLevel: function(level) {
+      if (this.activeLevel) {
+        // Destroy level
       }
+
+      this.activeLevel = level;
+      this.activeLevel.init();
+
+      Mouse.setScene(this.activeLevel.scene);
     },
 
-    onBoxDead: function(data) {
-      var position = data.object.instance.position;
-      Particle.scatter(position.x, position.y, this);
-
-      var that = this;
-      setTimeout(function() {
-        that.addStaticBox(position.x, position.y);
-      }, 3000);
-    },
-
-    initLight: function() {
-      var ambientLight = new Three.AmbientLight(Color.white);
-      this.scene.add(ambientLight);
-
-      var pointLight = new Three.PointLight(Color.white);
-      pointLight.position.z = -20.0;
-      this.scene.add(pointLight);
-    },
-
-    addParticle: function(particle) {
-      this.particles.push(particle);
-    },
-
-    addStaticBox: function(x, y) {
-      this.boxes.push(
-        (new StaticBox(this, {
-          size: 0.4,
-          life: 10,
-          x: x,
-          y: y
-        }))
-          .on('dead', this.onBoxDead, this)
-      );
-    },
 
 
     /**
@@ -141,77 +90,16 @@ define([
 
       this.time.update();
 
-      this.ship.update(this.time);
-
-      this.updateProjectiles(this.time);
-
-      // window.DEBUG('objects', this.scene.children.length);
+      this.activeLevel.update(this.time);
 
       // update controls last
       Keyboard.update();
       Mouse.update();
       Gamepad.update();
 
-      this.boxes = _.filter(this.boxes, function(box) {
-        box.update(this.time);
-
-        if(!box.alive) {
-          this.scene.remove(box.instance);
-        }
-
-        return box.alive;
-      }, this);
-
-      this.updateParticles(this.time);
+      Mouse.updateCursor(this.activeLevel.camera);
 
       this.draw();
-    },
-
-
-    updateParticles: function(time) {
-      var particles = this.particles, particle;
-      for(var i = particles.length; i--; ) {
-        particle = particles[i];
-        particle.update(time);
-
-        if(!particle.alive) {
-          this.scene.remove(particle.instance);
-          particles.splice(i, 1);
-        }
-      }
-    },
-
-    updateProjectiles: function(time) {
-      var i, projectile,
-        projectiles = this.projectiles;
-      for (i = projectiles.length; i--;) {
-        projectile = projectiles[i];
-
-        projectile.update(time);
-
-        this.checkProjectileCollisions(projectile);
-
-        if (!projectile.alive) {
-          projectile.remove();
-          projectiles.splice(i, 1);
-        }
-      }
-    },
-
-    checkProjectileCollisions: function(projectile) {
-      var p_bounds = projectile.getCollisionBounds();
-      for (var i = this.boxes.length; i--;) {
-        var box = this.boxes[i];
-
-        if (!box.alive) continue;
-
-        var b_bounds = box.getCollisionBounds();
-
-        if (Collision.collision(p_bounds, b_bounds)) {
-          projectile.onHit(box);
-          box.onHit(projectile);
-        }
-      }
     },
 
 
@@ -219,22 +107,20 @@ define([
      * draw
      */
     draw: function() {
-      this.renderer.render(this.scene, this.camera.camera);
+      this.activeLevel.draw(this.renderer);
     },
-
 
 
     /**
      * events
      */
     onresize: function() {
-
       this.width = window.innerWidth;
       this.height = window.innerHeight;
 
       this.renderer.setSize(this.width, this.height);
 
-      this.camera.updateProjection();
+      this.activeLevel.resize();
     }
 
   });

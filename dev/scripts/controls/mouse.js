@@ -25,6 +25,8 @@ define([
     // methods
     __init__: function() {
       this.supr();
+
+      this.scene = null;
     },
 
     init: function(game) {
@@ -37,12 +39,19 @@ define([
       this.cursor = new Three.Mesh(
         new Three.CubeGeometry(0.7, 0.7, 0.7),
         new Three.MeshPhongMaterial({
-          // map: Three.ImageUtils.loadTexture('res/mockups/crossHair.png'),
           map: Three.ImageUtils.loadTexture('res/crosshair4.png'),
           transparent: true
         })
       );
-      this.game.scene.add(this.cursor);
+    },
+
+    setScene: function(scene) {
+      if (this.scene) {
+        this.scene.remove(this.cursor);
+      }
+
+      this.scene = scene;
+      this.scene.add(this.cursor);
     },
 
     bindEvents: function() {
@@ -132,12 +141,8 @@ define([
     },
 
 
-    update: function() {
-      this.supr();
-
-
-      var w_coords = this.game.camera.screenToWorldPosition(this.x, this.y);
-
+    updateCursor: function(camera) {
+      var w_coords = camera.screenToWorldPosition(this.x, this.y);
 
       this.cursor.position.x = w_coords[0];
       this.cursor.position.y = w_coords[1];

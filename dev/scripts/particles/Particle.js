@@ -18,8 +18,8 @@ define([
 
   var Particle = BaseObject.extend({
 
-    __init__: function(game, ops) {
-      this.supr(game);
+    __init__: function(particleManager, ops) {
+      this.supr(particleManager);
 
       this.startX = ops.x || 0;
       this.startY = ops.y || 0;
@@ -42,8 +42,9 @@ define([
           shading: Three.FlatShading
         })
       );
+
       this.instance.position.set(this.startX, this.startY, 0);
-      this.game.scene.add(this.instance);
+      // this.particleManager.scene.add(this.instance);
     },
 
 
@@ -62,18 +63,18 @@ define([
   });
 
   
-  Particle.scatter = function(x, y, game) {
+  Particle.scatter = function(x, y, particleManager) {
     var count = 10;
 
     for(var i = count; i--; ) {
-      var p = new Particle(game, {
+      var p = new Particle(particleManager, {
         x: x,
         y: y,
         angle: Random.randomfloat(0, Math.PI *2),
         size: Random.randomfloat(0.08, 0.15),
         speed: Random.randomfloat(0.5, 1.2)
       });
-      game.addParticle(p);
+      particleManager.addParticle(p);
     }
   };
 

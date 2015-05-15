@@ -12,8 +12,8 @@ define([
 		_active: null,
 
 		// Methods
-		__init__: function(game) {
-			this.game = game;
+		__init__: function(level) {
+			this.level = level;
 			this.activate();
 		},
 

@@ -21,8 +21,8 @@ define([
 
 
     // method
-    __init__: function(game, ship, settings) {
-      this.supr(game);
+    __init__: function(level, ship, settings) {
+      this.supr(level);
 
       this.damage = 10.0;
 
@@ -74,7 +74,7 @@ define([
 
     addInstance: function(instance) {
       this.instances.push(instance);
-      this.game.scene.add(instance);
+      this.level.scene.add(instance);
     },
 
     update: function(time) {
@@ -87,7 +87,7 @@ define([
         instance.rotation.y = time.sinceStart * 1.5;
         instance.rotation.x = time.sinceStart * 1.5;
 
-        if (!this.game.camera.isPointInFrustum(pos.x, pos.y)) {
+        if (!this.level.camera.isPointInFrustum(pos.x, pos.y)) {
           this.alive = false;
         }
       }
@@ -119,7 +119,7 @@ define([
 
     remove: function() {
       for (var i = this.instances.length; i--;) {
-        this.game.scene.remove(this.instances[i]);
+        this.level.scene.remove(this.instances[i]);
       }
     },
 

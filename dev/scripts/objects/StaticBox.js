@@ -12,8 +12,8 @@ define([
 
   var StaticBox = BaseObject.extend({
 
-    __init__: function(game, settings) {
-      this.supr(game);
+    __init__: function(level, settings) {
+      this.supr(level);
 
       this.alive = true;
       this.life = this.maxLife = settings.life || 100.0;
@@ -35,14 +35,13 @@ define([
       this.instance = new Three.Mesh(this.geometry, this.material);
       this.instance.position.x = this.x;
       this.instance.position.y = this.y;
-      this.game.scene.add(this.instance);
+      this.level.scene.add(this.instance);
 
       this.counter = 0.0;
     },
 
 
     update: function() {
-
       this.counter = 1 - this.life / this.maxLife;
       var color = Color.lerp(Color.green, Color.red, this.counter);
 

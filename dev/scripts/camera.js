@@ -4,11 +4,7 @@ define([
 ], function(Three, Classy) {
 	var Camera = Classy.extend({
 
-		__init__: function(game) {
-			this.game = game;
-
-
-
+		__init__: function() {
 			this.updateProjection();
 			this.camera.position.z = 40.0;
 		},
@@ -17,15 +13,14 @@ define([
 
 
 		updateProjection: function() {
-			var w = this.width = 30; // this.game.width / 100;
-			var h = this.height = window.innerHeight / window.innerWidth * w; // this.game.height / 100;
+			var w = this.width = 30;
+			var h = this.height = window.innerHeight / window.innerWidth * w;
 
 			var pos;
 			if (this.camera)
 				pos = this.camera.position;
 
 			this.camera = new Three.OrthographicCamera(w / -2, w / 2, h / -2, h / 2, 1, 100);
-			// this.camera = new Three.PerspectiveCamera(60, w / h, 1, 1000);
 
 			if (pos)
 				this.camera.position = pos;
