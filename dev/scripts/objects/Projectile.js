@@ -5,8 +5,7 @@ define([
 
   'objects/BaseObject',
 
-  'util/Color',
-  'time'
+  'util/Color'
 ], function(
   Three,
   _,
@@ -14,8 +13,7 @@ define([
 
   BaseObject,
 
-  Color,
-  Time
+  Color
 ) {
 
   var Projectile = BaseObject.extend({
@@ -79,15 +77,15 @@ define([
       this.game.scene.add(instance);
     },
 
-    update: function() {
+    update: function(time) {
 
       for (var i = this.instances.length; i--;) {
         var instance = this.instances[i],
           pos = instance.position;
 
-        pos.add(this.vel.clone().multiplyScalar(Time.elapsed));
-        instance.rotation.y = Time.sinceStart * 1.5;
-        instance.rotation.x = Time.sinceStart * 1.5;
+        pos.add(this.vel.clone().multiplyScalar(time.elapsed));
+        instance.rotation.y = time.sinceStart * 1.5;
+        instance.rotation.x = time.sinceStart * 1.5;
 
         if (!this.game.camera.isPointInFrustum(pos.x, pos.y)) {
           this.alive = false;

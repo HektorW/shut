@@ -44,6 +44,8 @@ define([], function() {
     return Number(res);
   }
 
+
+  // EXPORT
   return {
     white: 0xffffff,
     navy: 0x001f3f,

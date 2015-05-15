@@ -10,15 +10,16 @@ define(['classy'], function(Classy) {
 		__init__: function() {},
 
 		start: function() {
-			this.lastTime = performance.now();
+			this.lastTime = this.now();
 		},
 		pause: function() {
-
+			this.pauseTime = this.now();
 		},
 
 		update: function() {
 			var t = performance.now();
 
+			this.time = t;
 			this.elapsedMs = t - this.lastTime;
 			this.elapsed = this.elapsedMs / 1000.0;
 			this.lastTime = t;
@@ -33,5 +34,5 @@ define(['classy'], function(Classy) {
 
 	});
 
-	return new Time();
+	return Time;
 });

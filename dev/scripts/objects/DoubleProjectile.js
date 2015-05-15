@@ -3,13 +3,11 @@ define([
 
   'objects/Projectile',
 
-  'util/Color',
-  'time'
+  'util/Color'
 ], function(
   Three,
   Projectile,
-  Color,
-  Time
+  Color
 ) {
 
   var DoubleProjectile = Projectile.extend({
@@ -48,8 +46,8 @@ define([
       this.addInstance(instance);
     },*/
 
-    update: function() {
-      this.supr();
+    update: function(time) {
+      this.supr(time);
     },
 
     /*getCollisionBounds: function() {

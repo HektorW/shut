@@ -1,13 +1,11 @@
 define([
   'threejs',
   'util/Color',
-  'time',
 
   'objects/BaseObject'
 ], function(
   Three,
   Color,
-  Time,
 
   BaseObject
 ) {

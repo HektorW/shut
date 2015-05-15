@@ -3,10 +3,16 @@ define([
 
   'util/Color',
   'util/Random',
-  'time',
 
   'objects/BaseObject',
-], function(Three, Color, Random, Time, BaseObject) {
+], function(
+  Three,
+
+  Color,
+  Random,
+
+  BaseObject
+) {
   
   var _gravity_y = 9.82;
 
@@ -41,15 +47,15 @@ define([
     },
 
 
-    update: function() {
+    update: function(time) {
 
-      this.liveCounter -= Time.elapsed;
+      this.liveCounter -= time.elapsed;
 
       if(this.liveCounter < 0.0)
         this.alive = false;
 
-      this.instance.position.x += this.direction.x * _gravity_y * this.speed * Time.elapsed;
-      this.instance.position.y += this.direction.y * _gravity_y * this.speed * Time.elapsed;
+      this.instance.position.x += this.direction.x * _gravity_y * this.speed * time.elapsed;
+      this.instance.position.y += this.direction.y * _gravity_y * this.speed * time.elapsed;
 
     }
 

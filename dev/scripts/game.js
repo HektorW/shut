@@ -50,6 +50,8 @@ define([
     projectiles: null,
     boxes: null,
 
+    time: null,
+
 
     // methods
     __init__: function() {
@@ -61,6 +63,8 @@ define([
       // this.renderer.setClearColor(Color.darken(Color.white));
 
       this.$root = $('#root').append(this.renderer.domElement);
+
+      this.time = new Time();
 
       // init controls
       Keyboard.init(this);
@@ -79,7 +83,7 @@ define([
       $(window).on('resize', this.onresize);
       this.onresize();
 
-      Time.start();
+      this.time.start();
       requestAnimationFrame(this.update);
     },
 
@@ -134,11 +138,12 @@ define([
      */
     update: function() {
       requestAnimationFrame(this.update);
-      Time.update();
 
-      this.ship.update();
+      this.time.update();
 
-      this.updateProjectiles();
+      this.ship.update(this.time);
+
+      this.updateProjectiles(this.time);
 
       // window.DEBUG('objects', this.scene.children.length);
 
@@ -148,7 +153,7 @@ define([
       Gamepad.update();
 
       this.boxes = _.filter(this.boxes, function(box) {
-        box.update();
+        box.update(this.time);
 
         if(!box.alive) {
           this.scene.remove(box.instance);
@@ -157,17 +162,17 @@ define([
         return box.alive;
       }, this);
 
-      this.updateParticles();
+      this.updateParticles(this.time);
 
       this.draw();
     },
 
 
-    updateParticles: function() {
+    updateParticles: function(time) {
       var particles = this.particles, particle;
       for(var i = particles.length; i--; ) {
         particle = particles[i];
-        particle.update();
+        particle.update(time);
 
         if(!particle.alive) {
           this.scene.remove(particle.instance);
@@ -176,13 +181,13 @@ define([
       }
     },
 
-    updateProjectiles: function() {
+    updateProjectiles: function(time) {
       var i, projectile,
         projectiles = this.projectiles;
       for (i = projectiles.length; i--;) {
         projectile = projectiles[i];
 
-        projectile.update();
+        projectile.update(time);
 
         this.checkProjectileCollisions(projectile);
 

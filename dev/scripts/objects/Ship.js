@@ -1,7 +1,6 @@
 define([
   'threejs',
   'util/Color',
-  'time',
 
   'objects/BaseObject',
   'objects/Projectile',
@@ -14,7 +13,6 @@ define([
 ], function(
   Three,
   Color,
-  Time,
 
   BaseObject,
   Projectile,
@@ -100,7 +98,7 @@ define([
       Keyboard.on('key:3:down', function() {
         this.activeProjectile = ExplosiveProjectile;
         this.xRotationTarget += Math.PI * 1;
-        this.targetColor = 'green';
+        this.targetColor = 'maroon';
         this.animationCount = this.animationCountDelay;
       }, this);
     },
@@ -172,11 +170,11 @@ define([
     },
 
 
-    update: function() {
+    update: function(time) {
       this.supr();
 
-      this.updateMovement();
-      this.updateControls();
+      this.updateMovement(time);
+      this.updateControls(time);
 
       this.instance.matrixAutoUpdate = false;
 
@@ -186,7 +184,7 @@ define([
       var mx = new Three.Matrix4();
 
       if (this.xRotation < this.xRotationTarget) {
-        this.xRotation += Time.elapsed * this.xRotationSpeed;
+        this.xRotation += time.elapsed * this.xRotationSpeed;
         if (this.xRotation > this.xRotationTarget) {
           this.xRotation = this.xRotationTarget;
         }
@@ -197,7 +195,7 @@ define([
 
 
       if (this.animationCount > 0.0) {
-        this.animationCount -= Time.elapsed;
+        this.animationCount -= time.elapsed;
 
         var color, delta;
 
@@ -226,7 +224,6 @@ define([
 
 
       var m = new Three.Matrix4();
-      // m.multiplyMatrices(mz, mx);
       m.multiply(mt);
       m.multiply(mz);
       m.multiply(mx);
@@ -237,15 +234,15 @@ define([
 
 
       this.checkBounds();
-      this.updateFireAnimation();
+      this.updateFireAnimation(time);
 
-      this.updateShooting();
+      this.updateShooting(time);
     },
 
-    updateMovement: function() {
+    updateMovement: function(time) {
       var instance = this.instance,
         position = instance.position,
-        elapsed = Time.elapsed;
+        elapsed = time.elapsed;
 
       var dir = new Three.Vector3(0, 0, 0);
 
@@ -291,8 +288,8 @@ define([
       // this.instance.rotateZ(angle);
     },
 
-    updateFireAnimation: function() {
-      var elapsed = Time.elapsed,
+    updateFireAnimation: function(time) {
+      var elapsed = time.elapsed,
         angle = this.angle,
         position = this.instance.position;
 
@@ -310,8 +307,8 @@ define([
     },
 
 
-    updateShooting: function() {
-      var elapsed = Time.elapsed;
+    updateShooting: function(time) {
+      var elapsed = time.elapsed;
 
       if (this.shootCounter > 0.0)
         this.shootCounter -= elapsed;
