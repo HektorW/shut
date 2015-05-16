@@ -46,7 +46,6 @@ define([
 
       // shoot
       this.shooting = window.shooting = {
-        delay: 0.15,
         speed: 20.0,
         size: 0.15,
         color: 'yellow'
@@ -209,9 +208,6 @@ define([
           color = Color.lerp(Color[this.color], Color[this.targetColor], delta);
         }
 
-
-        // window.DEBUG('color', Color.toHexStr(color));
-
         this.material.color.setHex(color);
         this.material.ambient.setHex(color);
         this.material.specular.setHex(color);
@@ -261,9 +257,6 @@ define([
         dir.y = Gamepad.getLeftY() || 0.0;
       }
 
-      // window.DEBUG('dir', dir.x, dir.y);
-      // window.DEBUG('dirlen', dir.length());
-
 
       dir.normalize();
       this.previousVel.lerp(dir, this.move.lerp);
@@ -283,9 +276,6 @@ define([
       var angle = this.angle = Math.atan2(v.y, v.x);
 
       this.angle = angle;
-
-      // this.instance.rotation.z = angle;
-      // this.instance.rotateZ(angle);
     },
 
     updateFireAnimation: function(time) {
@@ -352,8 +342,7 @@ define([
         dirX: Math.cos(angle),
         dirY: Math.sin(angle),
         size: this.shooting.size,
-        speed: this.shooting.speed,
-        color: this.shooting.color === 'random' ? Color.random() : Color[this.shooting.color]
+        speed: this.shooting.speed
       });
 
       this.level.projectiles.push(p);

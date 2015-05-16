@@ -2,12 +2,16 @@ define([
   'threejs',
   'util/Color',
 
-  'objects/BaseObject'
+  'objects/BaseObject',
+
+  'particles/Particle'
 ], function(
   Three,
   Color,
 
-  BaseObject
+  BaseObject,
+
+  Particle
 ) {
 
   var StaticBox = BaseObject.extend({
@@ -36,14 +40,12 @@ define([
       this.instance.position.x = this.x;
       this.instance.position.y = this.y;
       this.level.scene.add(this.instance);
-
-      this.counter = 0.0;
     },
 
 
     update: function() {
-      this.counter = 1 - this.life / this.maxLife;
-      var color = Color.lerp(Color.green, Color.red, this.counter);
+      var hpLevel = 1 - this.life / this.maxLife;
+      var color = Color.lerp(Color.green, Color.red, hpLevel);
 
       this.material.color.setHex(color);
       this.material.ambient.setHex(color);
@@ -64,9 +66,12 @@ define([
     },
 
     onHit: function(other) {
-      this.life = Math.max(this.life - other.damage, 0);
+      this.life -= other.damage;
+
+      Particle.directedScatter(this.level.particleManager, this.instance.position.x, this.instance.position.y, other.angle - Math.PI);
 
       if(this.life <= 0.0 && this.alive) {
+        this.life = 0.0;
         this.alive = false;
         this.trigger('dead', {
           object: this

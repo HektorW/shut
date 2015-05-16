@@ -18,8 +18,7 @@ define([
 
   var Particle = BaseObject.extend({
 
-    __init__: function(particleManager, ops) {
-      this.supr(particleManager);
+    __init__: function(ops) {
 
       this.startX = ops.x || 0;
       this.startY = ops.y || 0;
@@ -44,7 +43,6 @@ define([
       );
 
       this.instance.position.set(this.startX, this.startY, 0);
-      // this.particleManager.scene.add(this.instance);
     },
 
 
@@ -63,11 +61,11 @@ define([
   });
 
   
-  Particle.scatter = function(x, y, particleManager) {
-    var count = 10;
+  Particle.scatter = function(particleManager, x, y) {
+    var count = 15;
 
     for(var i = count; i--; ) {
-      var p = new Particle(particleManager, {
+      var p = new Particle({
         x: x,
         y: y,
         angle: Random.randomfloat(0, Math.PI *2),
@@ -75,6 +73,24 @@ define([
         speed: Random.randomfloat(0.5, 1.2)
       });
       particleManager.addParticle(p);
+    }
+  };
+
+  Particle.directedScatter = function(particleManager, x, y, angle) {
+    var count = 5;
+    var variance = 0.8;
+    var minAngle = angle - variance;
+    var maxAngle = angle + variance;
+
+    for (var i = count; i--; ) {
+      particleManager.addParticle(new Particle({
+        x: x,
+        y: y,
+        angle: Random.randomfloat(minAngle, maxAngle),
+        size: Random.randomfloat(0.08, 0.15),
+        speed: Random.randomfloat(0.8, 1.8),
+        duration: Random.randomfloat(0.1, 0.2)
+      }));
     }
   };
 

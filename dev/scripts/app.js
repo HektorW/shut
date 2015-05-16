@@ -15,8 +15,9 @@ define(['prefixer', 'game'], function(Prefixer, Game) {
 	App.prototype.init = function() {
 		Prefixer.prefixAll();
 		
-		game = new Game();
+		this.game = new Game();
 		
+    return this;
 	};
 
 	return App;

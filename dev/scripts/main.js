@@ -72,7 +72,7 @@ require([
     return d;
   }());
 
-  new App().init();
+  window.app = new App().init();
 
   // window.DEBUG('Initialized');
   window.DEBUG('Move: [w, a, s, d]');

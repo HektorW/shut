@@ -11,7 +11,8 @@ define([
   'time',
   'util/Color',
 
-  'levels/StaticBoxLevel'
+  'levels/StaticBoxLevel',
+  'levels/MovingBoxLevel'
 ], function(
   $,
   Three,
@@ -25,7 +26,8 @@ define([
   Time,
   Color,
 
-  StaticBoxLevel
+  StaticBoxLevel,
+  MovingBoxLevel
 ) {
 
   var Game = Classy.extend({
@@ -65,7 +67,7 @@ define([
 
 
     initLevel: function() {
-      this.setLevel(new StaticBoxLevel(this));
+      this.setLevel(new MovingBoxLevel(this));
     },
 
 

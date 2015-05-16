@@ -1,24 +1,28 @@
 define([
   'threejs',
+
   'util/Color',
+  'util/Random',
 
   'levels/BaseLevel',
 
-  'objects/StaticBox',
+  'objects/MovingBox',
 
   'particles/Particle'
 ], function(
   Three,
+
   Color,
+  Random,
 
   BaseLevel,
 
-  StaticBox,
+  MovingBox,
 
   Particle
 ) {
 
-  var StaticBoxLevel = BaseLevel.extend({
+  var MovingBoxLevel = BaseLevel.extend({
 
     __init__: function(game) {
       this.supr(game);
@@ -29,10 +33,7 @@ define([
     init: function() {
       this.supr();
 
-      var numBoxes = 128;
-      for(var i = 0; i < numBoxes; i++) {
-        this.addStaticBox(4 + parseInt(i / 16, 10), (i % 16) - 7.5);
-      }
+      setInterval(this.addMovingBox.bind(this), 500);
 
       this.initLights();
     },
@@ -51,13 +52,13 @@ define([
     updateLevel: function(time) { },
 
 
-    addStaticBox: function(x, y) {
+    addMovingBox: function() {
       this.enemies.push(
-        new StaticBox(this, {
+        new MovingBox(this, {
           size: 0.4,
-          life: 50,
-          x: x,
-          y: y
+          life: 25,
+          x: this.camera.width / 2,
+          y: Random.randomfloat(-this.camera.height, this.camera.height),
         }).on('dead', this.onBoxDead, this)
       );
     },
@@ -68,11 +69,11 @@ define([
 
       var that = this;
       setTimeout(function() {
-        that.addStaticBox(position.x, position.y);
+        that.addMovingBox();
       }, 3000);
     },
 
   });
 
-  return StaticBoxLevel;
+  return MovingBoxLevel;
 });

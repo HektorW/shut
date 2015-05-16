@@ -126,7 +126,7 @@ define([
   });
   _.extend(Projectile.prototype, Events);
 
-  Projectile.delay = 0.10;
+  Projectile.delay = 0.1;
 
 
   return Projectile;
