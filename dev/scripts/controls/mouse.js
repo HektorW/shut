@@ -37,7 +37,7 @@ define([
 
     loadCursor: function() {
       this.cursor = new Three.Mesh(
-        new Three.CubeGeometry(0.7, 0.7, 0.7),
+        new Three.BoxGeometry(0.7, 0.7, 0.7),
         new Three.MeshPhongMaterial({
           map: Three.ImageUtils.loadTexture('res/crosshair4.png'),
           transparent: true

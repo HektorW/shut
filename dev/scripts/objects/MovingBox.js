@@ -40,7 +40,7 @@ define([
     },
 
     initInstance: function() {
-      this.geometry = new Three.CubeGeometry(this.width, this.height, 1.0);
+      this.geometry = new Three.BoxGeometry(this.width, this.height, 1.0);
       this.material = new Three.MeshPhongMaterial({
         color: this.color,
         ambient: this.color,
@@ -60,7 +60,7 @@ define([
       var color = Color.darken(this.color, hpLevel);
 
       this.material.color.setHex(color);
-      this.material.ambient.setHex(color);
+      this.material.emissive.setHex(color);
       this.material.specular.setHex(color);
 
       this.instance.position.add(this.vel.clone().multiplyScalar(time.elapsed));

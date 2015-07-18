@@ -28,7 +28,7 @@ define([
       this.x = settings.x || 0.0;
       this.y = settings.y || 0.0;
 
-      this.geometry = new Three.CubeGeometry(this.width, this.height, 1.0);
+      this.geometry = new Three.BoxGeometry(this.width, this.height, 1.0);
       this.material = new Three.MeshPhongMaterial({
         color: Color.green,
         ambient: Color.green,
@@ -48,7 +48,7 @@ define([
       var color = Color.lerp(Color.green, Color.red, hpLevel);
 
       this.material.color.setHex(color);
-      this.material.ambient.setHex(color);
+      this.material.emissive.setHex(color);
       this.material.specular.setHex(color);
     },
 

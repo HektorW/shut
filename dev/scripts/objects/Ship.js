@@ -60,7 +60,7 @@ define([
       // three instance
       this.width = 1.0;
       this.height = 1.0;
-      this.geometry = new Three.CubeGeometry(this.width, this.height, 1.0);
+      this.geometry = new Three.BoxGeometry(this.width, this.height, 1.0);
       this.loadMaterials();
 
       this.instance = new Three.Mesh(this.geometry, this.material);
@@ -158,7 +158,7 @@ define([
         })
       ];
       this.fire = new Three.Mesh(
-        new Three.CubeGeometry(0.5, 0.5, 0.5),
+        new Three.BoxGeometry(0.5, 0.5, 0.5),
         this.fires[0]
       );
       this.level.scene.add(this.fire);
@@ -209,7 +209,7 @@ define([
         }
 
         this.material.color.setHex(color);
-        this.material.ambient.setHex(color);
+        this.material.emissive.setHex(color);
         this.material.specular.setHex(color);
       }
 
@@ -225,7 +225,8 @@ define([
       m.multiply(mx);
 
 
-      this.instance.matrixWorld = m;
+      // this.instance.matrixWorld = m;
+      this.instance.matrix = m;
       this.instance.updateMatrixWorld();
 
 

@@ -67,7 +67,7 @@ define([
 
 
     initLevel: function() {
-      this.setLevel(new MovingBoxLevel(this));
+      this.setLevel(new StaticBoxLevel(this));
     },
 
 

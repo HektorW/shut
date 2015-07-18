@@ -20,7 +20,7 @@ define([
 			if (this.camera)
 				pos = this.camera.position;
 
-			this.camera = new Three.OrthographicCamera(w / -2, w / 2, h / -2, h / 2, 1, 100);
+			this.camera = new Three.OrthographicCamera(w / -2, w / 2, h / -2, h / 2, -500, 100);
 
 			if (pos)
 				this.camera.position = pos;

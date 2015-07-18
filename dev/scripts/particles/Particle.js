@@ -13,7 +13,7 @@ define([
 
   BaseObject
 ) {
-  
+
   var _gravity_y = 9.82;
 
   var Particle = BaseObject.extend({
@@ -33,7 +33,7 @@ define([
       this.direction = new Three.Vector2(Math.cos(this.angle), Math.sin(this.angle));
 
       this.instance = new Three.Mesh(
-        new Three.CubeGeometry(this.size, this.size, this.size),
+        new Three.BoxGeometry(this.size, this.size, this.size),
         new Three.MeshPhongMaterial({
           ambient: this.color,
           color: this.color,
@@ -60,7 +60,7 @@ define([
 
   });
 
-  
+
   Particle.scatter = function(particleManager, x, y) {
     var count = 15;
 
@@ -94,6 +94,6 @@ define([
     }
   };
 
-  
+
   return Particle;
 });
