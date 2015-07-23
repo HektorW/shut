@@ -1,5 +1,5 @@
 {
-  "name": "Site",
+  "name": "Shut",
   "version": "0.0.0",
   "dependencies": {},
   "devDependencies": {
@@ -18,7 +18,7 @@
     "node": ">=0.8.0"
   },
   "scripts": {
-    "install": "bower install",
+    "install": "git submodule init && git submodule update && bower install",
     "dev": "grunt server",
     "build": "grunt"
   }
