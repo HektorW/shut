@@ -16,8 +16,7 @@ require.config({
   paths: {
     // jquery: '../bower_components/jquery/jquery',
     underscore: '../bower_components/underscore/underscore',
-    // threejs: '../bower_components/threejs/build/three',
-    threejs: 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r71/three',
+    threejs: '../bower_components/threejs/build/three',
 
     // own
     classy: '../libs/Classy/src/classy',
@@ -81,4 +80,3 @@ require([
   window.DEBUG('Change: [1, 2, 3]');
 
 });
-
